@@ -13,6 +13,8 @@ import Layout from './Layout'
 import AddTasks from './components/AddTasks'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ForgotPassword from './components/ForgotPassword'
+
 
 function App() {
   
@@ -23,6 +25,8 @@ function App() {
       <Routes>
         
         <Route path="/" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword/>} />
+       
         <Route path="/register" element={<Signup />} />
         <Route path="/email" element={<EmailVerification />} />
 

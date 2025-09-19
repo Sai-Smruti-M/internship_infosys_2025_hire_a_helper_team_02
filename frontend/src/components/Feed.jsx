@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaBell, FaSearch, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
 const Feed = () => {
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState({}); 
