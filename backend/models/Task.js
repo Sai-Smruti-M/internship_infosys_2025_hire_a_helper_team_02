@@ -13,7 +13,13 @@ const TaskSchema = new mongoose.Schema({
   end_time: { type: Date },
   status: { type: String, default: "pending" },
   category: { type: String },
-  picture: { type: String }, 
+  picture: { type: String },
+
+  
+  is_request_sent: {
+    type: Boolean,
+    default: false, 
+  },
 });
 
 module.exports = mongoose.model("Task", TaskSchema);
