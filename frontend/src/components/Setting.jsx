@@ -3,11 +3,13 @@ import { FaBell } from "react-icons/fa";
 import { FaCamera } from "react-icons/fa";    
 import { FaTrash } from "react-icons/fa";     
 import { FaKey } from "react-icons/fa";    
+
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Setting = ({ notifications }) => {
   const navigate=useNavigate();
+
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -97,10 +99,12 @@ const Setting = ({ notifications }) => {
           <h1 className="text-3xl font-bold">Settings</h1>
           <p className="text-gray-400">Manage your profile and account preferences</p>
         </div>
+
         <div className="relative" onClick={goToNotifications}>
           <FaBell size={24} />
           <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
             {notifications.length}
+
           </span>
         </div>
       </div>
@@ -142,6 +146,7 @@ const Setting = ({ notifications }) => {
                 onChange={handleChange}
                 className="w-full border rounded p-2"
               />
+
             </div>
             <div>
               <label className="block font-semibold">Last name</label>
@@ -153,6 +158,7 @@ const Setting = ({ notifications }) => {
                 className="w-full border rounded p-2"
               />
             </div>
+
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
@@ -162,10 +168,12 @@ const Setting = ({ notifications }) => {
                 type="email"
                 name="email_id"
                 value={form.email_id}
+
+
                 onChange={handleChange}
                 className="w-full border rounded p-2"
               />
-            </div>
+
             <div>
               <label className="block font-semibold">Phone Number</label>
               <input
@@ -176,6 +184,7 @@ const Setting = ({ notifications }) => {
                 className="w-full border rounded p-2"
               />
             </div>
+
           </div>
 
           <div className="mb-6">

@@ -16,7 +16,9 @@ import Notifications from './components/Notifications'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from './components/ForgotPassword'
+
 import ProtectedRoute from './ProtectedRoute'
+
 
 function App() {
 
@@ -41,6 +43,7 @@ function App() {
 
   return (
     <>
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -63,6 +66,7 @@ function App() {
       </BrowserRouter>
 
       <ToastContainer 
+
         position="top-center"   
         autoClose={3000}       
         hideProgressBar={false}

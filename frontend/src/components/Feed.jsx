@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FaBell, FaSearch, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
+
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Feed = ({notifications}) => {
+
   const [tasks, setTasks] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate(); 
