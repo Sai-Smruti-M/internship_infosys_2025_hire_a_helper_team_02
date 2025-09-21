@@ -10,6 +10,8 @@ const myTasksRoute=require("./routes/myTask")
 const path = require("path");
 const getTasksRoute = require("./routes/getTasks");
 const settingsRoute=require('./routes/settings');
+const forgotPasswordRoute = require("./routes/forgotPassword");
+
 const app = express();
 dotenv.config();
 
@@ -36,6 +38,8 @@ app.use("/login", loginRoute);
 app.use("/my-tasks", myTasksRoute);
 app.use("/tasks", getTasksRoute);
 app.use('/api/settings',settingsRoute );
+app.use("/forgot-password", forgotPasswordRoute);
+
 app.get("/", (req, res) => {
   res.send("Server is running 🚀");
 });

@@ -37,7 +37,7 @@ const Sidebar = () => {
           </p>
         </div>
 
-        {/* Navigation Links */}
+        
         <nav className="flex flex-col space-y-2 flex-grow">
           <NavLink
             to="/feed"
@@ -112,7 +112,7 @@ const Sidebar = () => {
           </NavLink>
         </nav>
 
-        {/* Logout Button */}
+       
         <button
           onClick={handleLogout}
           className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition"
