@@ -12,6 +12,10 @@ const getTasksRoute = require("./routes/getTasks");
 const settingsRoute=require('./routes/settings');
 const forgotPasswordRoute = require("./routes/forgotPassword");
 
+const requestsRouter = require("./routes/requests");
+const acceptedTasksRoute = require("./routes/acceptedTasks");
+const notificationsRoute = require("./routes/notifications");
+
 const app = express();
 dotenv.config();
 
@@ -31,6 +35,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
+app.use("/requests", requestsRouter);
 app.use("/add-tasks", addtaskRoute);
 app.use("/register", registerRoute);
 app.use("/verify-otp", verifyOtpRoute); 
@@ -39,6 +44,8 @@ app.use("/my-tasks", myTasksRoute);
 app.use("/tasks", getTasksRoute);
 app.use('/api/settings',settingsRoute );
 app.use("/forgot-password", forgotPasswordRoute);
+app.use("/accepted-tasks", acceptedTasksRoute);
+
 
 app.get("/", (req, res) => {
   res.send("Server is running 🚀");

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FaBell, FaSearch, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const MyTasks = () => {
+const MyTasks = ({ notifications }) => {
+  const navigate=useNavigate();
   const [tasks, setTasks] = useState([]);
   const storedUser = JSON.parse(localStorage.getItem("user")); 
 
@@ -21,6 +22,10 @@ const MyTasks = () => {
     }
   }, [storedUser]);
 
+  const goToNotifications = () => {
+    navigate("/notification");
+  };
+
   return (
     <div className="ml-64 flex flex-col w-[calc(100%-16rem)] bg-gray-900 text-white min-h-screen border-l border-gray-700">
       
@@ -29,10 +34,10 @@ const MyTasks = () => {
           <h1 className="text-3xl font-bold">My Tasks</h1>
           <p className="text-gray-400">Manage your posted tasks</p>
         </div>
-        <div className="relative">
+        <div className="relative" onClick={goToNotifications}>
           <FaBell size={24} />
           <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
-            {tasks.length}
+            {notifications.length}
           </span>
         </div>
       </div>
