@@ -168,12 +168,10 @@ const Setting = ({ notifications }) => {
                 type="email"
                 name="email_id"
                 value={form.email_id}
-
-
                 onChange={handleChange}
                 className="w-full border rounded p-2"
               />
-
+            </div>
             <div>
               <label className="block font-semibold">Phone Number</label>
               <input
@@ -184,7 +182,6 @@ const Setting = ({ notifications }) => {
                 className="w-full border rounded p-2"
               />
             </div>
-
           </div>
 
           <div className="mb-6">
