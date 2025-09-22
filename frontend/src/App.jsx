@@ -16,8 +16,8 @@ import Notifications from './components/Notifications'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from './components/ForgotPassword'
-
 import ProtectedRoute from './ProtectedRoute'
+
 
 
 function App() {
@@ -43,6 +43,7 @@ function App() {
 
   return (
     <>
+
 
       <BrowserRouter>
         <Routes>

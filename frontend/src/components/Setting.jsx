@@ -3,12 +3,15 @@ import { FaBell } from "react-icons/fa";
 import { FaCamera } from "react-icons/fa";    
 import { FaTrash } from "react-icons/fa";     
 import { FaKey } from "react-icons/fa";    
+import { toast } from 'react-toastify';
+
 
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Setting = ({ notifications }) => {
   const navigate=useNavigate();
+
 
   const [form, setForm] = useState({
     first_name: '',
@@ -98,7 +101,9 @@ const Setting = ({ notifications }) => {
         <div>
           <h1 className="text-3xl font-bold">Settings</h1>
           <p className="text-gray-400">Manage your profile and account preferences</p>
+
         </div>
+      </div>
 
         <div className="relative" onClick={goToNotifications}>
           <FaBell size={24} />
@@ -108,6 +113,7 @@ const Setting = ({ notifications }) => {
           </span>
         </div>
       </div>
+
 
      
       <div className="flex justify-center mt-10 px-6 pb-10">
@@ -120,6 +126,7 @@ const Setting = ({ notifications }) => {
           <div className="flex items-center gap-6 mb-8">
             <div className="w-20 h-20 rounded-full bg-sky-500 text-white flex items-center justify-center text-2xl font-bold border">
               {getInitials()}
+
             </div>
             <div className="flex gap-3 flex-wrap">
               <button type="button" className="flex items-center gap-2 px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-lg">
@@ -147,6 +154,7 @@ const Setting = ({ notifications }) => {
                 className="w-full border rounded p-2"
               />
 
+
             </div>
             <div>
               <label className="block font-semibold">Last name</label>
@@ -168,10 +176,12 @@ const Setting = ({ notifications }) => {
                 type="email"
                 name="email_id"
                 value={form.email_id}
+
                 onChange={handleChange}
                 className="w-full border rounded p-2"
               />
             </div>
+
             <div>
               <label className="block font-semibold">Phone Number</label>
               <input
@@ -182,6 +192,7 @@ const Setting = ({ notifications }) => {
                 className="w-full border rounded p-2"
               />
             </div>
+
           </div>
 
           <div className="mb-6">
