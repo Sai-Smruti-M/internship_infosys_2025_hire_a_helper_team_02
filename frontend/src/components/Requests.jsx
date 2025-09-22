@@ -1,68 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaBell, FaSearch, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const Requests = () => {
-  const requests = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      rating: 4.8,
-      reviews: 18,
-      description:
-        "Hi! I'd love to help with your computer setup. I have 5+ years of IT experience and can handle networking, software installation, and troubleshooting. Available tomorrow afternoon as requested.",
-      request: "Computer setup help",
-      time: "Jul 6, 3:00PM",
-      distance: "within 5 miles",
-    },
-    {
-      id: 2,
-      name: "Emily Chan",
-      rating: 4.8,
-      reviews: 18,
-      description:
-        "I'd be happy to help with your computer setup! I'm a software engineer with experience in home networking and system configuration. I can bring my own tools if needed.",
-      request: "Computer setup help",
-      time: "Jul 6, 3:00PM",
-      distance: "within 5 miles",
-    },
+const Requests = ({ notifications }) => {
+  const navigate=useNavigate()
+  const [requests, setRequests] = useState([]);
+  const [search, setSearch] = useState("");
 
-    {
-      id: 2,
-      name: "Emily Chan",
-      rating: 4.8,
-      reviews: 18,
-      description:
-        "I'd be happy to help with your computer setup! I'm a software engineer with experience in home networking and system configuration. I can bring my own tools if needed.",
-      request: "Computer setup help",
-      time: "Jul 6, 3:00PM",
-      distance: "within 5 miles",
-    },
+  const user = JSON.parse(localStorage.getItem("user"));
 
-    {
-      id: 2,
-      name: "Emily Chan",
-      rating: 4.8,
-      reviews: 18,
-      description:
-        "I'd be happy to help with your computer setup! I'm a software engineer with experience in home networking and system configuration. I can bring my own tools if needed.",
-      request: "Computer setup help",
-      time: "Jul 6, 3:00PM",
-      distance: "within 5 miles",
-    },
-  ];
+  useEffect(() => {
+    if (!user) return;
+
+    fetch(`http://localhost:5000/requests/user/${user.id}`)
+      .then((res) => res.json())
+      .then((data) => setRequests(data))
+      .catch((err) => console.error("Error fetching requests:", err));
+  }, [user]);
+
+ 
+  const filteredRequests = requests.filter((req) =>
+    req.task?.title?.toLowerCase().includes(search.toLowerCase())
+  );
+
+ const handleAccept = async (reqId) => {
+  try {
+    await fetch(`http://localhost:5000/requests/${reqId}/status`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "accepted" }),
+    });
+    setRequests(prev => prev.filter(r => r._id !== reqId));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const handleDecline = async (reqId) => {
+  try {
+    await fetch(`http://localhost:5000/requests/${reqId}/status`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "rejected" }),
+    });
+    setRequests(prev => prev.filter(r => r._id !== reqId));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
+  const goToNotifications = () => {
+    navigate("/notification");
+  };
 
   return (
     <div className="ml-64 flex flex-col w-[calc(100%-16rem)] bg-gray-900 text-white min-h-screen border-l border-gray-700">
-     
+      
       <div className="sticky top-0 z-20 flex justify-between items-center bg-gray-900 p-6 border-b border-gray-700">
         <div>
           <h1 className="text-3xl font-bold">Requests</h1>
           <p className="text-gray-400">People who want to help with your tasks</p>
         </div>
-        <div className="relative">
+        <div className="relative" onClick={goToNotifications}>
           <FaBell size={24} />
           <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
-            3
+            {notifications.length}
           </span>
         </div>
       </div>
@@ -75,58 +78,85 @@ const Requests = () => {
             type="text"
             placeholder="Search tasks..."
             className="w-full outline-none"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
       </div>
 
-      
+     
       <div className="px-6 pb-10 space-y-4 mt-6">
-        {requests.map((req) => (
+        {filteredRequests.length === 0 && (
+          <p className="text-gray-400">No requests found.</p>
+        )}
+
+        {filteredRequests.map((req) => (
           <div
-            key={req.id}
+            key={req._id}
             className="flex bg-white text-black p-4 rounded-lg shadow-md items-start"
           >
-            
+          
             <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center text-2xl mr-4">
               👤
             </div>
 
-            
+           
             <div className="flex-1">
               <h2 className="font-bold text-lg">
-                {req.name}{" "}
+                {req.requester?.first_name} {req.requester?.last_name}{" "}
                 <span className="text-yellow-500">⭐</span>{" "}
                 <span className="text-sm text-gray-600">
-                  {req.rating} ({req.reviews} reviews)
+                  {req.requester?.rating || "-"} ({req.requester?.reviews || 0} reviews)
                 </span>
               </h2>
-              <p className="text-gray-700 mt-1">{req.description}</p>
-
-             
-              <div className="bg-gray-200 p-2 rounded mt-3">
-                <p className="font-semibold">Requesting for:</p>
-                <p>{req.request}</p>
-              </div>
 
               
+              <div className="bg-gray-200 p-2 rounded mt-3">
+                <p className="font-semibold">Task:</p>
+                <p>{req.task?.title || "Task Deleted"}</p>
+                <p className="text-sm text-gray-600">
+                  {req.task?.description || "No description available"}
+                </p>
+              </div>
+
+             
               <div className="flex flex-col sm:flex-row text-sm text-gray-600 gap-2 sm:space-x-6 mt-2">
                 <span className="flex items-center">
-                  <FaRegClock className="mr-2" /> {req.time}
+                  <FaRegClock className="mr-2" />{" "}
+                  {req.task?.start_time
+                    ? new Date(req.task.start_time).toLocaleString()
+                    : "No start time"}
                 </span>
                 <span className="flex items-center">
-                  <FaMapMarkerAlt className="mr-2" /> {req.distance}
+                  <FaMapMarkerAlt className="mr-2" /> {req.task?.location || "No location"}
                 </span>
               </div>
             </div>
 
-            
+          
             <div className="flex flex-col gap-2 ml-4">
-              <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md">
-                Accept
-              </button>
-              <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md">
-                Decline
-              </button>
+              {req.status === "pending" && (
+                <>
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md"
+                    onClick={() =>
+                      handleAccept(req._id, req.task?._id, req.requester?._id)
+                    }
+                    disabled={!req.task} 
+                  >
+                    Accept
+                  </button>
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
+                    onClick={() => handleDecline(req._id)}
+                  >
+                    Decline
+                  </button>
+                </>
+              )}
+              {req.status !== "pending" && (
+                <span className="text-gray-500 font-semibold">{req.status}</span>
+              )}
             </div>
           </div>
         ))}

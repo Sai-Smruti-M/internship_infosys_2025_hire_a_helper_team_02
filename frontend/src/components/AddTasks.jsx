@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { FaBell, FaTrash, FaCamera } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
-const AddTasks = () => {
+
+
+import { useNavigate } from "react-router-dom";
+const AddTasks = ({ notifications }) => {
+  const navigate = useNavigate();
+
+
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
@@ -89,6 +95,9 @@ const AddTasks = () => {
       toast.error("Something went wrong!");
     }
   };
+   const goToNotifications = () => {
+    navigate("/notification");
+  };
 
   return (
     <div className="ml-64 flex flex-col w-[calc(100%-16rem)] bg-gray-900 text-white min-h-screen border-l border-gray-700">
@@ -97,14 +106,18 @@ const AddTasks = () => {
         <div>
           <h1 className="text-3xl font-bold">Add Task</h1>
           <p className="text-gray-400">Create a task and find someone to help you</p>
+
+
         </div>
-        <div className="relative">
-          <FaBell size={24} />
-          <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
-            3
-          </span>
-        </div>
+        <div className="relative cursor-pointer" onClick={goToNotifications}>
+                  <FaBell size={24} />
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
+                    {notifications.length}
+                  </span>
+                </div>
+
       </div>
+
 
       
       <div className="flex justify-center mt-10 px-6 pb-10">
@@ -157,6 +170,8 @@ const AddTasks = () => {
                 onChange={handleChange}
                 className="w-full border rounded p-2 mb-4"
               />
+
+
             </div>
             <div>
               <label className="block font-semibold">Start Time</label>
@@ -179,6 +194,7 @@ const AddTasks = () => {
               />
             </div>
             <div>
+
               <label className="block font-semibold">End Time (Optional)</label>
               <input
                 type="time"
@@ -189,6 +205,7 @@ const AddTasks = () => {
               />
             </div>
           </div>
+
 
           
           <label className="block font-semibold">Category</label>

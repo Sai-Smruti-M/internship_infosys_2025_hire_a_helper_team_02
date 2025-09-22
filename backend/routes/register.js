@@ -35,7 +35,6 @@ router.post("/", async (req, res) => {
     otpStore[email_id] = {
       otp,
       userData: {
-        id: uuidv4(),
         first_name,
         last_name,
         phone_number,
@@ -98,5 +97,8 @@ router.post("/resend", async (req, res) => {
     res.json({ success: false, message: "Server error", error: error.message });
   }
 });
+
+
+
 
 module.exports = router;
