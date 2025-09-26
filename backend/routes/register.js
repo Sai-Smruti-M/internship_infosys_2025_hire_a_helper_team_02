@@ -3,7 +3,9 @@ const nodemailer = require("nodemailer");
 const otpStore = require("./otpStore");
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
+
 const upload=require("../middleware/upload")
+
 dotenv.config();
 
 const router = express.Router();
@@ -18,7 +20,9 @@ const transporter = nodemailer.createTransport({
 
 
 
+
 router.post("/", upload.single("profile_image"), async (req, res) => {
+
   try {
     const { first_name, last_name, phone_number, email_id, password } = req.body;
 
@@ -27,6 +31,7 @@ router.post("/", upload.single("profile_image"), async (req, res) => {
     }
 
   
+
     const profile_picture = req.file
       ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
       : "http://localhost:5000/uploads/profile_picture.jpg";
@@ -38,6 +43,7 @@ router.post("/", upload.single("profile_image"), async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
    
+
     otpStore[email_id] = {
       otp,
       userData: {
@@ -51,7 +57,7 @@ router.post("/", upload.single("profile_image"), async (req, res) => {
       expiresAt: Date.now() + 5 * 60 * 1000, 
     };
 
-    
+   
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email_id,

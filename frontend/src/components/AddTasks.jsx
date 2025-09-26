@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const AddTasks = ({ notifications }) => {
   const navigate = useNavigate();
+
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
@@ -102,6 +103,7 @@ const AddTasks = ({ notifications }) => {
         <div>
           <h1 className="text-3xl font-bold">Add Task</h1>
           <p className="text-gray-400">Create a task and find someone to help you</p>
+
         </div>
         <div className="relative cursor-pointer" onClick={goToNotifications}>
                   <FaBell size={24} />
@@ -109,7 +111,9 @@ const AddTasks = ({ notifications }) => {
                     {notifications.length}
                   </span>
                 </div>
+
       </div>
+
 
       
       <div className="flex justify-center mt-10 px-6 pb-10">
@@ -162,6 +166,7 @@ const AddTasks = ({ notifications }) => {
                 onChange={handleChange}
                 className="w-full border rounded p-2 mb-4"
               />
+
             </div>
             <div>
               <label className="block font-semibold">Start Time</label>
@@ -184,6 +189,7 @@ const AddTasks = ({ notifications }) => {
               />
             </div>
             <div>
+
               <label className="block font-semibold">End Time (Optional)</label>
               <input
                 type="time"
@@ -194,6 +200,7 @@ const AddTasks = ({ notifications }) => {
               />
             </div>
           </div>
+
 
           
           <label className="block font-semibold">Category</label>

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const MyRequests = ({ notifications }) => {
+
   const navigate = useNavigate();
   const [myRequests, setMyRequests] = useState([]);
   const [search, setSearch] = useState("");
@@ -37,6 +38,7 @@ const MyRequests = ({ notifications }) => {
     );
   });
 
+
   const goToNotifications = () => {
     navigate("/notification");
   };
@@ -49,7 +51,9 @@ const MyRequests = ({ notifications }) => {
           <h1 className="text-3xl font-bold">My Requests</h1>
           <p className="text-gray-400">Track the help requests you’ve sent</p>
         </div>
+
         <div className="relative cursor-pointer" onClick={goToNotifications}>
+
           <FaBell size={24} />
           <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
             {notifications.length}
@@ -73,15 +77,18 @@ const MyRequests = ({ notifications }) => {
 
       
       <div className="px-6 pb-10 space-y-4 mt-6">
+
         {filteredRequests.length === 0 && (
           <p className="text-gray-400">No requests found.</p>
         )}
+
 
         {filteredRequests.map((req) => (
           <div
             key={req._id}
             className="flex flex-col bg-white text-black p-4 rounded-lg shadow-md"
           >
+
             <div className="flex justify-between items-start">
             
               <div className="flex items-center">
@@ -104,8 +111,10 @@ const MyRequests = ({ notifications }) => {
                 <div>
                   <h2 className="font-bold text-lg">{req.task?.title}</h2>
                   <p className="text-sm text-gray-600">
+
                     Task owner: {req.task_owner?.first_name}{" "}
                     {req.task_owner?.last_name}
+
                   </p>
                 </div>
               </div>
@@ -129,6 +138,7 @@ const MyRequests = ({ notifications }) => {
               </div>
             </div>
 
+
           
             <div className="bg-gray-200 p-3 rounded mt-3">
               <p className="font-semibold">Task Information:</p>
@@ -139,6 +149,7 @@ const MyRequests = ({ notifications }) => {
               <p className="text-sm text-gray-700 mt-1">
                 <span className="font-semibold">Location: </span>
                 {req.task?.location || "No location provided."}
+
               </p>
             </div>
 
@@ -157,11 +168,13 @@ const MyRequests = ({ notifications }) => {
             {req.task?.picture && (
               <div className="mt-3">
                 <img
+
                   src={
                     req.task.picture
                       ? `http://localhost:5000${req.task.picture}`
                       : "https://via.placeholder.com/80"
                   }
+
                   alt={req.task?.title}
                   className="w-full h-48 object-cover rounded-lg"
                 />
@@ -169,6 +182,10 @@ const MyRequests = ({ notifications }) => {
             )}
           </div>
         ))}
+
+        {filteredRequests.length === 0 && (
+          <p className="text-gray-400">No requests found.</p>
+        )}
       </div>
     </div>
   );

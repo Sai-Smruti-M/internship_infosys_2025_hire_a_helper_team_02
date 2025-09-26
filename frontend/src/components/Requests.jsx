@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { FaBell, FaSearch, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
+
 const Requests = ({ notifications, refreshNotifications }) => {
   const navigate = useNavigate();
+
   const [requests, setRequests] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -17,6 +19,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
       .then((data) => setRequests(data))
       .catch((err) => console.error("Error fetching requests:", err));
   }, [user]);
+
 
   const filteredRequests = requests.filter((req) => {
     const searchLower = search.toLowerCase();
@@ -55,6 +58,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
     } catch (err) {
       console.error(err);
     }
+
   };
 
   return (
@@ -65,7 +69,9 @@ const Requests = ({ notifications, refreshNotifications }) => {
           <h1 className="text-3xl font-bold">Requests</h1>
           <p className="text-gray-400">People who want to help with your tasks</p>
         </div>
+
         <div className="relative cursor-pointer" onClick={() => navigate("/notification")}>
+
           <FaBell size={24} />
           <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
             {notifications.length}
@@ -87,7 +93,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
         </div>
       </div>
 
-      
+     
       <div className="px-6 pb-10 space-y-4 mt-6">
         {filteredRequests.length === 0 && (
           <p className="text-gray-400">No requests found.</p>
@@ -98,6 +104,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
             key={req._id}
             className="flex bg-white text-black p-4 rounded-lg shadow-md items-start"
           >
+
             
             <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl mr-4 overflow-hidden">
               {req.requester?.profile_picture ? (
@@ -111,11 +118,13 @@ const Requests = ({ notifications, refreshNotifications }) => {
                   req.requester?.last_name?.charAt(0) || ""
                 }`.toUpperCase()
               )}
+
             </div>
 
            
             <div className="flex-1">
               <h2 className="font-bold text-lg">
+
                 {req.requester?.first_name} {req.requester?.last_name}
               </h2>
 
@@ -127,6 +136,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
                 </p>
               </div>
 
+
               <div className="flex flex-col sm:flex-row text-sm text-gray-600 gap-2 sm:space-x-6 mt-2">
                 <span className="flex items-center">
                   <FaRegClock className="mr-2" />{" "}
@@ -135,20 +145,24 @@ const Requests = ({ notifications, refreshNotifications }) => {
                     : "No start time"}
                 </span>
                 <span className="flex items-center">
+
                   <FaMapMarkerAlt className="mr-2" />{" "}
                   {req.task?.location || "No location"}
+
                 </span>
               </div>
             </div>
 
-            
+          
             <div className="flex flex-col gap-2 ml-4">
+
               {req.status === "pending" ? (
                 <>
                   <button
                     className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md"
                     onClick={() => handleAccept(req._id)}
                     disabled={!req.task}
+
                   >
                     Accept
                   </button>
@@ -159,7 +173,9 @@ const Requests = ({ notifications, refreshNotifications }) => {
                     Decline
                   </button>
                 </>
+
               ) : (
+
                 <span className="text-gray-500 font-semibold">{req.status}</span>
               )}
             </div>

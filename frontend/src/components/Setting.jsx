@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { FaBell, FaCamera, FaTrash, FaKey } from "react-icons/fa";    
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +9,7 @@ const Setting = ({ notifications }) => {
   const navigate = useNavigate();
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const userId = storedUser?.id;
+
 
   const [form, setForm] = useState({
     first_name: '',
@@ -23,6 +25,7 @@ const Setting = ({ notifications }) => {
 
   useEffect(() => {
     if (!userId) return;
+
     setForm({
       first_name: storedUser.first_name || '',
       last_name: storedUser.last_name || '',
@@ -31,6 +34,7 @@ const Setting = ({ notifications }) => {
       profile_picture: storedUser.profile_picture || '',
       bio: storedUser.bio || ''
     });
+
   }, [userId]);
 
   const handleChange = e => {
@@ -94,6 +98,7 @@ const handleRemovePicture = async () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+
     try {
       const payload = {
         first_name: form.first_name,
@@ -142,6 +147,7 @@ const handleRemovePicture = async () => {
       console.error(err);
       toast.error(err.response?.data?.message || 'Error changing password');
     }
+
   };
 
   const getInitials = () => {
@@ -156,10 +162,12 @@ const handleRemovePicture = async () => {
 
   return (
     <div className="ml-64 flex flex-col w-[calc(100%-16rem)] bg-gray-900 text-white min-h-screen border-l border-gray-700">
+
       <div className="sticky top-0 z-20 flex justify-between items-center bg-gray-900 p-6 border-b border-gray-700">
         <div>
           <h1 className="text-3xl font-bold">Settings</h1>
           <p className="text-gray-400">Manage your profile and account preferences</p>
+
         </div>
         <div className="relative" onClick={goToNotifications}>
           <FaBell size={24} />
@@ -204,16 +212,19 @@ const handleRemovePicture = async () => {
               <label className="block font-semibold">Last name</label>
               <input type="text" name="last_name" value={form.last_name} onChange={handleChange} className="w-full border rounded p-2" />
             </div>
+
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
               <label className="block font-semibold">Email Address</label>
+
               <input type="email" name="email_id" value={form.email_id} onChange={handleChange} className="w-full border rounded p-2" />
             </div>
             <div>
               <label className="block font-semibold">Phone Number</label>
               <input type="text" name="phone_number" value={form.phone_number} onChange={handleChange} className="w-full border rounded p-2" />
+
             </div>
           </div>
 
@@ -240,9 +251,11 @@ const handleRemovePicture = async () => {
                 name="currentPassword"
                 value={passwordForm.currentPassword}
                 onChange={handlePasswordChange}
+
                 className="w-full border rounded p-2"
                 required
               />
+
               <input
                 type="password"
                 placeholder="New Password"
@@ -267,5 +280,6 @@ const handleRemovePicture = async () => {
     </div>
   );
 };
+
 
 export default Setting;

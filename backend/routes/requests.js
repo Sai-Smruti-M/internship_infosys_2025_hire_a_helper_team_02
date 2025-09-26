@@ -8,22 +8,26 @@ const Notification = require("../models/Notification");
 router.post("/", async (req, res) => {
   const { task_id, requester_id, task_owner_id } = req.body;
 
+
   if (!task_id || !requester_id || !task_owner_id) {
     return res.status(400).json({ message: "task_id, requester_id, and task_owner_id are required" });
   }
 
   try {
+
     const newRequest = new Request({
       task_id,
       requester_id,
       task_owner_id,
       status: "pending",
+
     });
     await newRequest.save();
 
     await Task.findByIdAndUpdate(task_id, { is_request_sent: true });
 
     const requesterUser = await Request.populate(newRequest, { path: "requester_id", select: "first_name last_name profile_picture" });
+
     const task = await Task.findById(task_id);
 
     const notificationBody = `${requesterUser.requester_id.first_name} ${requesterUser.requester_id.last_name} sent a request for your task "${task.title}".`;
@@ -65,7 +69,9 @@ router.get("/user/:userId", async (req, res) => {
 
 router.put("/:requestId/status", async (req, res) => {
   const { requestId } = req.params;
+
   const { status } = req.body;
+
 
   if (!["accepted", "rejected"].includes(status)) {
     return res.status(400).json({ message: "Invalid status value" });
@@ -73,13 +79,17 @@ router.put("/:requestId/status", async (req, res) => {
 
   try {
     const request = await Request.findById(requestId)
+
       .populate("requester_id", "first_name last_name profile_picture")
+
       .populate("task_id", "title");
 
     if (!request) return res.status(404).json({ message: "Request not found" });
 
+
     request.status = status;
     await request.save();
+
 
     if (status === "accepted") {
       await AcceptedTask.create({
@@ -89,9 +99,11 @@ router.put("/:requestId/status", async (req, res) => {
       });
     }
 
+
     if (status === "rejected") {
       await Task.findByIdAndUpdate(request.task_id._id, { is_request_sent: false });
     }
+
 
     const notificationMessage =
       status === "accepted"
@@ -116,7 +128,9 @@ router.get("/requester/:userId", async (req, res) => {
     const { userId } = req.params;
     const requests = await Request.find({ requester_id: userId })
       .populate("task_id", "title description start_time end_time location category picture")
+
       .populate("task_owner_id", "first_name last_name profile_picture"); 
+
 
     const formattedRequests = requests.map((req) => ({
       _id: req._id,
@@ -125,6 +139,7 @@ router.get("/requester/:userId", async (req, res) => {
       message: req.message,
       task: req.task_id,
       task_owner: req.task_owner_id, 
+
     }));
 
     res.json(formattedRequests);

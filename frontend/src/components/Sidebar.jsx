@@ -35,6 +35,7 @@ const Sidebar = () => {
           </div>
         )}
 
+
         <h2 className="text-lg font-semibold text-gray-900">
           {user ? `${user.first_name} ${user.last_name}` : "Guest"}
         </h2>
@@ -42,6 +43,7 @@ const Sidebar = () => {
           {user ? user.email_id : "guest@example.com"}
         </p>
       </div>
+
 
       {/* Navigation */}
       <nav className="flex flex-col space-y-2 flex-grow">
@@ -112,6 +114,7 @@ const Sidebar = () => {
               isActive ? "bg-teal-500" : "hover:bg-teal-500"
             }`
           }
+
         >
           <IoMdSettings size={20} />
           <span>Settings</span>

@@ -4,7 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const MyTasks = ({ notifications }) => {
+
   const navigate = useNavigate();
+
   const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState(""); 
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -29,6 +31,7 @@ const MyTasks = ({ notifications }) => {
     navigate("/notification");
   };
 
+
   
   const filteredTasks = tasks.filter(
     (task) =>
@@ -37,6 +40,7 @@ const MyTasks = ({ notifications }) => {
       task.location.toLowerCase().includes(search.toLowerCase()) ||
       task.status.toLowerCase().includes(search.toLowerCase())
   );
+
 
   return (
     <div className="ml-64 flex flex-col w-[calc(100%-16rem)] bg-gray-900 text-white min-h-screen border-l border-gray-700">

@@ -18,10 +18,12 @@ import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from './components/ForgotPassword'
 import ProtectedRoute from './ProtectedRoute'
 
+
 function App() {
 
   const [notifications, setNotifications] = useState([]);
   const storedUser = JSON.parse(localStorage.getItem("user"));
+
 
   const fetchNotifications = async () => {
   if (!storedUser?.id) return;
@@ -41,6 +43,7 @@ useEffect(() => {
 
   return (
     <>
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -49,11 +52,13 @@ useEffect(() => {
           <Route path="/email" element={<EmailVerification />} />
 
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+
             <Route path="/feed" element={<Feed notifications={notifications} refreshNotifications={fetchNotifications} />} />
             <Route path="/tasks" element={<MyTasks notifications={notifications} />} />
             <Route path="/requests" element={<Requests notifications={notifications} refreshNotifications={fetchNotifications}/>} />
             <Route path="/my-requests" element={<MyRequests notifications={notifications} />} />
             <Route path="/add-task" element={<AddTasks notifications={notifications}/>} />
+
             <Route path="/settings" element={<Setting notifications={notifications} />} />
             <Route path="/notification" element={<Notifications notifications={notifications} />} />
             
@@ -63,6 +68,7 @@ useEffect(() => {
       </BrowserRouter>
 
       <ToastContainer 
+
         position="top-center"   
         autoClose={3000}       
         hideProgressBar={false}
