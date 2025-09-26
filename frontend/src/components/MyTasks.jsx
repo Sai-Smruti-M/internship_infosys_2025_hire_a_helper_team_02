@@ -4,14 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const MyTasks = ({ notifications }) => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
-  const storedUser = JSON.parse(localStorage.getItem("user")); 
+  const [search, setSearch] = useState(""); 
+  const storedUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/my-tasks/${storedUser.id}`);
+        const res = await axios.get(
+          `http://localhost:5000/my-tasks/${storedUser.id}`
+        );
         setTasks(res.data);
       } catch (err) {
         console.error("Error fetching tasks:", err);
@@ -25,6 +28,15 @@ const MyTasks = ({ notifications }) => {
   const goToNotifications = () => {
     navigate("/notification");
   };
+
+  
+  const filteredTasks = tasks.filter(
+    (task) =>
+      task.title.toLowerCase().includes(search.toLowerCase()) ||
+      task.description.toLowerCase().includes(search.toLowerCase()) ||
+      task.location.toLowerCase().includes(search.toLowerCase()) ||
+      task.status.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="ml-64 flex flex-col w-[calc(100%-16rem)] bg-gray-900 text-white min-h-screen border-l border-gray-700">
@@ -49,6 +61,8 @@ const MyTasks = ({ notifications }) => {
           <input
             type="text"
             placeholder="Search tasks..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="w-full outline-none"
           />
         </div>
@@ -62,16 +76,20 @@ const MyTasks = ({ notifications }) => {
 
       
       <div className="px-6 pb-10 space-y-4 mt-6">
-        {tasks.length === 0 ? (
-          <p className="text-gray-400">No tasks found for you.</p>
+        {filteredTasks.length === 0 ? (
+          <p className="text-gray-400">No tasks found for your search.</p>
         ) : (
-          tasks.map((task) => (
+          filteredTasks.map((task) => (
             <div
               key={task._id}
               className="flex bg-gray-800 p-4 rounded-lg shadow-md items-start"
             >
               <img
-                src={task.picture ? `http://localhost:5000${task.picture}` : "https://via.placeholder.com/80"}
+                src={
+                  task.picture
+                    ? `http://localhost:5000${task.picture}`
+                    : "https://via.placeholder.com/80"
+                }
                 alt={task.title}
                 className="w-20 h-20 rounded-lg mr-4 object-cover"
               />

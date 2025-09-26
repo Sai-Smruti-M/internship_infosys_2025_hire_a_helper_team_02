@@ -23,21 +23,21 @@ function App() {
   const [notifications, setNotifications] = useState([]);
   const storedUser = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      if (!storedUser?.id) return;
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/notifications/user/${storedUser.id}`
-        );
-        setNotifications(res.data);
-      } catch (err) {
-        console.error("Error fetching notifications:", err);
-      }
-    };
+  const fetchNotifications = async () => {
+  if (!storedUser?.id) return;
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/notifications/user/${storedUser.id}`
+    );
+    setNotifications(res.data);
+  } catch (err) {
+    console.error("Error fetching notifications:", err);
+  }
+};
 
-    fetchNotifications();
-  }, [storedUser]);
+useEffect(() => {
+  fetchNotifications();
+}, [storedUser]);
 
   return (
     <>
@@ -49,11 +49,11 @@ function App() {
           <Route path="/email" element={<EmailVerification />} />
 
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-            <Route path="/feed" element={<Feed notifications={notifications} />} />
+            <Route path="/feed" element={<Feed notifications={notifications} refreshNotifications={fetchNotifications} />} />
             <Route path="/tasks" element={<MyTasks notifications={notifications} />} />
-            <Route path="/requests" element={<Requests notifications={notifications} />} />
+            <Route path="/requests" element={<Requests notifications={notifications} refreshNotifications={fetchNotifications}/>} />
             <Route path="/my-requests" element={<MyRequests notifications={notifications} />} />
-            <Route path="/add-task" element={<AddTasks notifications={notifications} />} />
+            <Route path="/add-task" element={<AddTasks notifications={notifications}/>} />
             <Route path="/settings" element={<Setting notifications={notifications} />} />
             <Route path="/notification" element={<Notifications notifications={notifications} />} />
             

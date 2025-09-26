@@ -1,9 +1,9 @@
 const express = require("express");
-const { v4: uuidv4 } = require("uuid");
 const nodemailer = require("nodemailer");
 const otpStore = require("./otpStore");
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
+const upload=require("../middleware/upload")
 dotenv.config();
 
 const router = express.Router();
@@ -17,21 +17,27 @@ const transporter = nodemailer.createTransport({
 });
 
 
-router.post("/", async (req, res) => {
+
+router.post("/", upload.single("profile_image"), async (req, res) => {
   try {
-    const { first_name, last_name, phone_number, email_id, password, profile_picture } = req.body;
+    const { first_name, last_name, phone_number, email_id, password } = req.body;
 
     if (!first_name || !last_name || !email_id || !password) {
       return res.json({ success: false, message: "Please provide all required fields" });
     }
 
   
+    const profile_picture = req.file
+      ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
+      : "http://localhost:5000/uploads/profile_picture.jpg";
+
+    
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
 
     
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
+   
     otpStore[email_id] = {
       otp,
       userData: {
@@ -40,12 +46,12 @@ router.post("/", async (req, res) => {
         phone_number,
         email_id,
         password: hashedPassword,
-        profile_picture: profile_picture || null,
+        profile_picture,
       },
       expiresAt: Date.now() + 5 * 60 * 1000, 
     };
 
-   
+    
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email_id,

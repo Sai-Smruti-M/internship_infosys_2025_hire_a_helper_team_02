@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -9,20 +10,38 @@ const Signup = () => {
     email_id: "",
     phone_number: "",
     password: "",
+    profile_image: null, 
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    setFormData({ ...formData, profile_image: e.target.files[0] });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      const dataToSend = new FormData();
+      dataToSend.append("first_name", formData.first_name);
+      dataToSend.append("last_name", formData.last_name);
+      dataToSend.append("email_id", formData.email_id);
+      dataToSend.append("phone_number", formData.phone_number);
+      dataToSend.append("password", formData.password);
+
+      
+      if (formData.profile_image) {
+        dataToSend.append("profile_image", formData.profile_image);
+      } else {
+        dataToSend.append("profile_image", "https://example.com/default-profile.png"); 
+      }
+
       const res = await fetch("http://localhost:5000/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: dataToSend,
       });
 
       const data = await res.json();
@@ -49,10 +68,9 @@ const Signup = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+         
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">
-              First name
-            </label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">First name</label>
             <input
               type="text"
               name="first_name"
@@ -64,10 +82,9 @@ const Signup = () => {
             />
           </div>
 
+          
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">
-              Last name
-            </label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Last name</label>
             <input
               type="text"
               name="last_name"
@@ -79,10 +96,9 @@ const Signup = () => {
             />
           </div>
 
+          
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">
-              Email Address
-            </label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Email Address</label>
             <input
               type="email"
               name="email_id"
@@ -94,10 +110,9 @@ const Signup = () => {
             />
           </div>
 
+          
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">
-              Phone Number
-            </label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Phone Number</label>
             <input
               type="text"
               name="phone_number"
@@ -110,10 +125,9 @@ const Signup = () => {
             />
           </div>
 
+          
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">
-              Password
-            </label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Password</label>
             <input
               type="password"
               name="password"
@@ -122,6 +136,17 @@ const Signup = () => {
               placeholder="Enter your password"
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               required
+            />
+          </div>
+
+          
+          <div>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Profile Image (optional)</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-full"
             />
           </div>
 

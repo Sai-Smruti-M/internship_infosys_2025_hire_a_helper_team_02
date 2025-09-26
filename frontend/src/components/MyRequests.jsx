@@ -4,39 +4,39 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const MyRequests = ({ notifications }) => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [myRequests, setMyRequests] = useState([]);
   const [search, setSearch] = useState("");
 
-  
- const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user"));
 
-useEffect(() => {
-  const fetchMyRequests = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:5000/requests/requester/${user.id}`
-      );
-      setMyRequests(res.data);
-      console.log(res.data);
-    } catch (err) {
-      console.error("Error fetching requests:", err);
-    }
-  };
+  useEffect(() => {
+    const fetchMyRequests = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/requests/requester/${user.id}`
+        );
+        setMyRequests(res.data);
+      } catch (err) {
+        console.error("Error fetching requests:", err);
+      }
+    };
 
-  if (user?.id) fetchMyRequests();
-}, []); 
+    if (user?.id) fetchMyRequests();
+  }, [user?.id]);
 
 
+  const filteredRequests = myRequests.filter((req) => {
+    const searchLower = search.toLowerCase();
+    return (
+      req.task?.title?.toLowerCase().includes(searchLower) ||
+      req.task?.category?.toLowerCase().includes(searchLower) ||
+      req.task?.location?.toLowerCase().includes(searchLower) ||
+      req.task_owner?.first_name?.toLowerCase().includes(searchLower) ||
+      req.task_owner?.last_name?.toLowerCase().includes(searchLower)
+    );
+  });
 
-  
-
-  const filteredRequests = myRequests.filter(
-    (req) =>
-      req.task?.title?.toLowerCase().includes(search.toLowerCase()) ||
-      req.task?.category?.toLowerCase().includes(search.toLowerCase()) ||
-      req.task?.location?.toLowerCase().includes(search.toLowerCase())
-  );
   const goToNotifications = () => {
     navigate("/notification");
   };
@@ -49,7 +49,7 @@ useEffect(() => {
           <h1 className="text-3xl font-bold">My Requests</h1>
           <p className="text-gray-400">Track the help requests you’ve sent</p>
         </div>
-        <div className="relative" onClick={goToNotifications}>
+        <div className="relative cursor-pointer" onClick={goToNotifications}>
           <FaBell size={24} />
           <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
             {notifications.length}
@@ -63,7 +63,7 @@ useEffect(() => {
           <FaSearch className="text-gray-500 mr-2" />
           <input
             type="text"
-            placeholder="Search tasks..."
+            placeholder="Search requests..."
             className="w-full outline-none"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -73,25 +73,44 @@ useEffect(() => {
 
       
       <div className="px-6 pb-10 space-y-4 mt-6">
+        {filteredRequests.length === 0 && (
+          <p className="text-gray-400">No requests found.</p>
+        )}
+
         {filteredRequests.map((req) => (
           <div
             key={req._id}
             className="flex flex-col bg-white text-black p-4 rounded-lg shadow-md"
           >
-            
             <div className="flex justify-between items-start">
+            
               <div className="flex items-center">
-                <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center text-2xl mr-3">
-                  👤
+                <div className="w-12 h-12 rounded-full overflow-hidden mr-3">
+                  {req.task_owner?.profile_picture ? (
+                    <img
+                      src={req.task_owner.profile_picture}
+                      alt={`${req.task_owner.first_name} ${req.task_owner.last_name}`}
+                      className="w-12 h-12 object-cover rounded-full"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-gray-300 flex items-center justify-center text-2xl text-white font-bold rounded-full">
+                      {`${req.task_owner?.first_name?.charAt(0) || ""}${
+                        req.task_owner?.last_name?.charAt(0) || ""
+                      }`.toUpperCase()}
+                    </div>
+                  )}
                 </div>
+
                 <div>
                   <h2 className="font-bold text-lg">{req.task?.title}</h2>
                   <p className="text-sm text-gray-600">
-                    Task owner:{" "}
-                    {req.task_owner?.first_name} {req.task_owner?.last_name}
+                    Task owner: {req.task_owner?.first_name}{" "}
+                    {req.task_owner?.last_name}
                   </p>
                 </div>
               </div>
+
+              
               <div className="flex gap-2">
                 <span className="bg-sky-200 text-sky-700 text-xs font-semibold px-2 py-1 rounded">
                   {req.task?.category}
@@ -110,12 +129,16 @@ useEffect(() => {
               </div>
             </div>
 
-            
+          
             <div className="bg-gray-200 p-3 rounded mt-3">
-              <p className="font-semibold">Your message:</p>
+              <p className="font-semibold">Task Information:</p>
               <p className="text-sm text-gray-700 mt-1">
-                
-                {req.message || "No custom message sent."}
+                <span className="font-semibold">Description: </span>
+                {req.task?.description || "No description available."}
+              </p>
+              <p className="text-sm text-gray-700 mt-1">
+                <span className="font-semibold">Location: </span>
+                {req.task?.location || "No location provided."}
               </p>
             </div>
 
@@ -134,7 +157,11 @@ useEffect(() => {
             {req.task?.picture && (
               <div className="mt-3">
                 <img
-                  src={req.task.picture ? `http://localhost:5000${req.task.picture}` : "https://via.placeholder.com/80"}
+                  src={
+                    req.task.picture
+                      ? `http://localhost:5000${req.task.picture}`
+                      : "https://via.placeholder.com/80"
+                  }
                   alt={req.task?.title}
                   className="w-full h-48 object-cover rounded-lg"
                 />
@@ -142,10 +169,6 @@ useEffect(() => {
             )}
           </div>
         ))}
-
-        {filteredRequests.length === 0 && (
-          <p className="text-gray-400">No requests found.</p>
-        )}
       </div>
     </div>
   );
