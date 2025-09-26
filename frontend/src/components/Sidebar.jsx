@@ -10,8 +10,11 @@ const Sidebar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
  const handleLogout = () => {
+  const confirmed = window.confirm("Are you sure you want to logout?");
+  if (!confirmed) return;
   localStorage.removeItem("user");
-  navigate("/", { replace: true }); 
+  localStorage.removeItem("token");
+  navigate("/", { replace: true });
 };
 
   
