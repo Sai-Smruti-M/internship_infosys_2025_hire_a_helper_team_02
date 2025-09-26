@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaBell, FaSearch, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
-
-
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const Feed = ({notifications}) => {
-
-
+const Feed = ({ notifications, refreshNotifications }) => {
   const [tasks, setTasks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); 
+
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate(); 
 
@@ -45,6 +43,9 @@ const Feed = ({notifications}) => {
         }),
       });
 
+      refreshNotifications();
+
+
       const data = await response.json();
 
       if (data.success) {
@@ -62,10 +63,18 @@ const Feed = ({notifications}) => {
     }
   };
 
-  
+
   const goToNotifications = () => {
     navigate("/notification");
   };
+
+ 
+  const filteredTasks = tasks.filter((task) =>
+    task.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    task.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    task.category?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
 
   return (
     <div className="ml-64 flex flex-col w-[calc(100%-16rem)] bg-gray-900 text-white min-h-screen">
@@ -86,7 +95,15 @@ const Feed = ({notifications}) => {
       <div className="sticky top-[88px] z-20 bg-gray-900 px-6 py-4 border-b border-gray-700 flex justify-between items-center">
         <div className="flex items-center bg-white text-black px-4 py-2 rounded-lg w-1/2">
           <FaSearch className="text-gray-500 mr-2" />
-          <input type="text" placeholder="Search tasks..." className="w-full outline-none" />
+
+          <input
+            type="text"
+            placeholder="Search tasks..."
+            className="w-full outline-none"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)} 
+          />
+
         </div>
         <Link to="/add-task">
           <button className="bg-blue-600 text-white px-4 py-2 rounded-lg ml-4">+ Add New Task</button>
@@ -95,7 +112,9 @@ const Feed = ({notifications}) => {
 
       <div className="flex-1 overflow-y-auto px-6 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {tasks.map((task) => {
+
+          {filteredTasks.map((task) => { 
+
             const userInfo = task.user_id;
             const isButtonDisabled = task.is_request_sent === true;
 
@@ -119,7 +138,9 @@ const Feed = ({notifications}) => {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-2">
                       {userInfo?.profile_picture ? (
-                        <img src={`http://localhost:5000${userInfo.profile_picture}`} alt={`${userInfo.first_name}`} className="w-8 h-8 rounded-full object-cover" />
+
+                        <img src={`${userInfo.profile_picture}`} alt={`${userInfo.first_name}`} className="w-8 h-8 rounded-full object-cover" />
+
                       ) : (
                         <div className="w-8 h-8 bg-purple-300 rounded-full flex items-center justify-center">
                           <span className="text-sm font-bold">{userInfo?.first_name?.[0] || "?"}</span>
