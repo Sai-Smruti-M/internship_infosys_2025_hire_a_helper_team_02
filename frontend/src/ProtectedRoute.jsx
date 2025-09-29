@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // If user manually clears storage or uses back/forward buttons, enforce redirect
+
   useEffect(() => {
     const handlePop = () => {
       const u = JSON.parse(localStorage.getItem("user"));
@@ -22,7 +22,6 @@ const ProtectedRoute = ({ children }) => {
     return () => window.removeEventListener("popstate", handlePop);
   }, [navigate]);
 
- 
   if (!user || !token) {
     return <Navigate to="/" replace state={{ from: location }} />;
   }
