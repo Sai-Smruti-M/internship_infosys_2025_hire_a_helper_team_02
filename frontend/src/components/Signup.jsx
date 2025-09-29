@@ -144,6 +144,7 @@ const Signup = () => {
           
 
           <div>
+
   <label className="block text-gray-700 text-sm font-semibold mb-1">
     Password
   </label>
@@ -157,6 +158,7 @@ const Signup = () => {
     required
   />
 </div>
+
 
           
           <div>
