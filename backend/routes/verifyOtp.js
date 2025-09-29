@@ -26,8 +26,22 @@ router.post("/", async (req, res) => {
       return res.json({ success: false, message: "OTP expired" });
     }
 
-    const newUser = new User({ ...otpData.userData, isVerified: true });
+    
+    const userData = {
+      first_name: otpData.userData.first_name,
+      last_name: otpData.userData.last_name,
+      email_id: otpData.userData.email_id,
+      password: otpData.userData.password, 
+      phone_number: otpData.userData.phone_number,
+      profile_picture: otpData.userData.profile_picture || "https://example.com/default-profile.png",
+      isVerified: true,
+    };
+
+    
+    const newUser = new User(userData);
     await newUser.save();
+
+    
     delete otpStore[email];
 
     res.json({ success: true, message: "Email verified & user registered!" });

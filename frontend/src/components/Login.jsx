@@ -7,6 +7,7 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,6 +18,7 @@ const Login = () => {
     }
 
     try {
+      setLoading(true);
       const response = await fetch("http://localhost:5000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -37,11 +39,22 @@ const Login = () => {
     } catch (err) {
       console.error("Login error:", err);
       toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-600 to-cyan-400 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-600 to-cyan-400 px-4 relative">
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-4 p-8 bg-white/90 rounded-xl shadow-xl">
+            <span className="h-12 w-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+            <p className="text-gray-700 font-semibold" role="status" aria-live="polite">Authenticating...</p>
+            <p className="text-xs text-gray-500">Please wait</p>
+          </div>
+        </div>
+      )}
       <div className="bg-white shadow-md rounded-xl p-8 w-full max-w-md">
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold text-gray-800">Welcome Back</h2>
@@ -87,8 +100,10 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full py-2 rounded-md text-white font-semibold bg-gradient-to-r from-indigo-500 to-cyan-400 hover:opacity-90 transition">
-            Sign in
+            disabled={loading}
+            className={`w-full py-2 rounded-md text-white font-semibold bg-gradient-to-r from-indigo-500 to-cyan-400 transition flex items-center justify-center gap-2 ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90'}`}
+          >
+            {loading ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
 

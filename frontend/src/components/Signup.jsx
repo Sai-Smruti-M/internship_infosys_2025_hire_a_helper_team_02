@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -9,20 +10,40 @@ const Signup = () => {
     email_id: "",
     phone_number: "",
     password: "",
+    profile_image: null, 
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    setFormData({ ...formData, profile_image: e.target.files[0] });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      setLoading(true);
+      const dataToSend = new FormData();
+      dataToSend.append("first_name", formData.first_name);
+      dataToSend.append("last_name", formData.last_name);
+      dataToSend.append("email_id", formData.email_id);
+      dataToSend.append("phone_number", formData.phone_number);
+      dataToSend.append("password", formData.password);
+
+      
+      if (formData.profile_image) {
+        dataToSend.append("profile_image", formData.profile_image);
+      } else {
+        dataToSend.append("profile_image", "https://example.com/default-profile.png"); 
+      }
+
       const res = await fetch("http://localhost:5000/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: dataToSend,
       });
 
       const data = await res.json();
@@ -37,11 +58,22 @@ const Signup = () => {
     } catch (error) {
       console.error("Error:", error);
       toast.error("Server error, try again!");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-600 to-cyan-400 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-600 to-cyan-400 px-4 relative">
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-4 p-8 bg-white/90 rounded-xl shadow-xl">
+            <span className="h-12 w-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+            <p className="text-gray-700 font-semibold" role="status" aria-live="polite">Sending OTP...</p>
+            <p className="text-xs text-gray-500">Please wait</p>
+          </div>
+        </div>
+      )}
       <div className="bg-white shadow-md rounded-xl p-8 w-full max-w-md mt-12">
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold text-gray-800">Create Account</h2>
@@ -49,10 +81,9 @@ const Signup = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+         
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">
-              First name
-            </label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">First name</label>
             <input
               type="text"
               name="first_name"
@@ -64,10 +95,9 @@ const Signup = () => {
             />
           </div>
 
+          
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">
-              Last name
-            </label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Last name</label>
             <input
               type="text"
               name="last_name"
@@ -79,10 +109,9 @@ const Signup = () => {
             />
           </div>
 
+          
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">
-              Email Address
-            </label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Email Address</label>
             <input
               type="email"
               name="email_id"
@@ -94,10 +123,9 @@ const Signup = () => {
             />
           </div>
 
+          
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">
-              Phone Number
-            </label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Phone Number</label>
             <input
               type="text"
               name="phone_number"
@@ -110,10 +138,9 @@ const Signup = () => {
             />
           </div>
 
+          
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">
-              Password
-            </label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Password</label>
             <input
               type="password"
               name="password"
@@ -125,11 +152,23 @@ const Signup = () => {
             />
           </div>
 
+          
+          <div>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Profile Image (optional)</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-full"
+            />
+          </div>
+
           <button
             type="submit"
-            className="w-full py-2 rounded-md text-white font-semibold bg-gradient-to-r from-indigo-500 to-cyan-400 hover:opacity-90 transition"
+            disabled={loading}
+            className={`w-full py-2 rounded-md text-white font-semibold bg-gradient-to-r from-indigo-500 to-cyan-400 transition ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90'}`}
           >
-            Create Account
+            {loading ? 'Processing...' : 'Create Account'}
           </button>
         </form>
 

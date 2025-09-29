@@ -12,7 +12,6 @@ const getTasksRoute = require("./routes/getTasks");
 const settingsRoute=require('./routes/settings');
 const forgotPasswordRoute = require("./routes/forgotPassword");
 
-
 const requestsRouter = require("./routes/requests");
 const acceptedTasksRoute = require("./routes/acceptedTasks");
 const notificationsRoute = require("./routes/notifications");
@@ -47,6 +46,9 @@ app.use("/tasks", getTasksRoute);
 app.use('/api/settings',settingsRoute );
 app.use("/forgot-password", forgotPasswordRoute);
 app.use("/accepted-tasks", acceptedTasksRoute);
+
+app.use("/notifications", notificationsRoute);
+
 
 
 app.get("/", (req, res) => {
