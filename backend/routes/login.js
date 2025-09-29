@@ -32,6 +32,9 @@ router.post("/", async (req, res) => {
         first_name: user.first_name,
         last_name: user.last_name,
         email_id: user.email_id,
+        phone_number:user.phone_number,
+        profile_picture:user.profile_picture,
+        bio:user.bio,
       },
     });
   } catch (error) {

@@ -9,6 +9,7 @@ const AddTasks = ({ notifications }) => {
   const navigate = useNavigate();
 
 
+
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
@@ -170,7 +171,6 @@ const AddTasks = ({ notifications }) => {
                 onChange={handleChange}
                 className="w-full border rounded p-2 mb-4"
               />
-
 
             </div>
             <div>

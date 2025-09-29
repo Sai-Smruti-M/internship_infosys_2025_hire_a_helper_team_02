@@ -1,8 +1,8 @@
-const mongoose=require("mongoose")
+const mongoose = require("mongoose");
 
-const userSchema=new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
-   
+
     first_name: {
       type: String,
       required: true,
@@ -29,13 +29,19 @@ const userSchema=new mongoose.Schema(
       required: true,
     },
     profile_picture: {
-      type: String, 
-      default: null,
+      type: String,
+      default: "http://localhost:5000/uploads/profile_picture.jpg",
+    },
+    bio: {
+      type: String,
+      trim: true,
+      maxlength: 300, 
+      default: "Hey there! I am using this app.", 
     },
   },
   { timestamps: true }
-)
+);
 
-const User=mongoose.model("User",userSchema)
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
