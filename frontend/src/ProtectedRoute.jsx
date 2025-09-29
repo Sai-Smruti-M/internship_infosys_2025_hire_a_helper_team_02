@@ -1,11 +1,14 @@
+
 import React, { useEffect } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
+
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
   const location = useLocation();
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const handlePop = () => {
