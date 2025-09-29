@@ -144,15 +144,21 @@ const Signup = () => {
           
 
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">Password</label>
 
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full"
-            />
-          </div>
+  <label className="block text-gray-700 text-sm font-semibold mb-1">
+    Password
+  </label>
+  <input
+    type="password"
+    name="password"
+    value={formData.password}
+    onChange={handleChange}
+    placeholder="Enter your password"
+    className="w-full border border-gray-300 rounded-md px-3 py-2"
+    required
+  />
+</div>
+
 
           
           <div>
