@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
+
 const ProtectedRoute = ({ children }) => {
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -22,8 +23,10 @@ const ProtectedRoute = ({ children }) => {
     return () => window.removeEventListener("popstate", handlePop);
   }, [navigate]);
 
+
   if (!user || !token) {
     return <Navigate to="/" replace state={{ from: location }} />;
+
   }
 
   return children;

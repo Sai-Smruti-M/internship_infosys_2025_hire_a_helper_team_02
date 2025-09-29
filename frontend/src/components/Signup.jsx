@@ -12,9 +12,11 @@ const Signup = () => {
     phone_number: "",
     password: "",
 
+
     profile_image: null, 
   });
   const [loading, setLoading] = useState(false);
+
 
 
   const handleChange = (e) => {
@@ -143,6 +145,7 @@ const Signup = () => {
 
           
 
+
           <div>
 
   <label className="block text-gray-700 text-sm font-semibold mb-1">
@@ -159,6 +162,18 @@ const Signup = () => {
   />
 </div>
 
+
+          
+          <div>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Profile Image (optional)</label>
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-full"
+            />
+          </div>
 
           
           <div>
