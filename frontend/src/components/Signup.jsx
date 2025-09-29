@@ -175,16 +175,6 @@ const Signup = () => {
             />
           </div>
 
-          
-          <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">Profile Image (optional)</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full"
-            />
-          </div>
 
           <button
             type="submit"
