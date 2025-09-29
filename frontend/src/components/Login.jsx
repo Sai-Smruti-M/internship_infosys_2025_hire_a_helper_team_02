@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 const Login = () => {
   const navigate = useNavigate();
-
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+
+  const [showPassword, setShowPassword] = useState(false); 
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,13 +32,12 @@ const Login = () => {
       const data = await response.json();
 
       if (data.success) {
-        
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        toast.success("Login successful")
+        toast.success("Login successful");
         navigate("/feed");
       } else {
-        alert(data.message);
+        toast.error(data.message || "Invalid credentials");
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -50,11 +53,14 @@ const Login = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-4 p-8 bg-white/90 rounded-xl shadow-xl">
             <span className="h-12 w-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
-            <p className="text-gray-700 font-semibold" role="status" aria-live="polite">Authenticating...</p>
+
+            <p className="text-gray-700 font-semibold">Authenticating...</p>
+
             <p className="text-xs text-gray-500">Please wait</p>
           </div>
         </div>
       )}
+
       <div className="bg-white shadow-md rounded-xl p-8 w-full max-w-md">
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold text-gray-800">Welcome Back</h2>
@@ -79,13 +85,22 @@ const Login = () => {
             <label className="block text-gray-700 text-sm font-semibold mb-1">
               Password
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"} 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
 
           <div className="flex items-center justify-between text-sm">
@@ -93,9 +108,9 @@ const Login = () => {
               <input type="checkbox" className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
               <span className="text-gray-700">Remember me</span>
             </label>
-           <Link to="/forgot-password" className="text-blue-600 hover:underline">
-  Forgot your password?
-</Link>
+            <Link to="/forgot-password" className="text-blue-600 hover:underline">
+              Forgot your password?
+            </Link>
           </div>
 
           <button
