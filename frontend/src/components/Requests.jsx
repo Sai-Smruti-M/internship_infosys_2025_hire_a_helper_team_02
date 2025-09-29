@@ -3,8 +3,10 @@ import { FaBell, FaSearch, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 
+
 const Requests = ({ notifications, refreshNotifications }) => {
   const navigate = useNavigate();
+
 
   const [requests, setRequests] = useState([]);
   const [search, setSearch] = useState("");
@@ -19,6 +21,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
       .then((data) => setRequests(data))
       .catch((err) => console.error("Error fetching requests:", err));
   }, [user]);
+
 
 
   const filteredRequests = requests.filter((req) => {
@@ -70,7 +73,9 @@ const Requests = ({ notifications, refreshNotifications }) => {
           <p className="text-gray-400">People who want to help with your tasks</p>
         </div>
 
+
         <div className="relative cursor-pointer" onClick={() => navigate("/notification")}>
+
 
           <FaBell size={24} />
           <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
@@ -105,6 +110,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
             className="flex bg-white text-black p-4 rounded-lg shadow-md items-start"
           >
 
+
             
             <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl mr-4 overflow-hidden">
               {req.requester?.profile_picture ? (
@@ -119,11 +125,13 @@ const Requests = ({ notifications, refreshNotifications }) => {
                 }`.toUpperCase()
               )}
 
+
             </div>
 
            
             <div className="flex-1">
               <h2 className="font-bold text-lg">
+
 
                 {req.requester?.first_name} {req.requester?.last_name}
               </h2>
@@ -146,8 +154,10 @@ const Requests = ({ notifications, refreshNotifications }) => {
                 </span>
                 <span className="flex items-center">
 
+
                   <FaMapMarkerAlt className="mr-2" />{" "}
                   {req.task?.location || "No location"}
+
 
                 </span>
               </div>
@@ -155,6 +165,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
 
           
             <div className="flex flex-col gap-2 ml-4">
+
 
               {req.status === "pending" ? (
                 <>
@@ -173,6 +184,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
                     Decline
                   </button>
                 </>
+
 
               ) : (
 

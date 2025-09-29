@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { FaBell, FaTrash, FaCamera } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
+
+
 import { useNavigate } from "react-router-dom";
 const AddTasks = ({ notifications }) => {
   const navigate = useNavigate();
+
+
 
   const [taskData, setTaskData] = useState({
     title: "",
@@ -103,6 +107,7 @@ const AddTasks = ({ notifications }) => {
         <div>
           <h1 className="text-3xl font-bold">Add Task</h1>
           <p className="text-gray-400">Create a task and find someone to help you</p>
+
 
         </div>
         <div className="relative cursor-pointer" onClick={goToNotifications}>

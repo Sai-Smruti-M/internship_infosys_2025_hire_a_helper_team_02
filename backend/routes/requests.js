@@ -3,10 +3,12 @@ const router = express.Router();
 const Request = require("../models/Requests");
 const AcceptedTask = require("../models/AcceptedTasks");
 const Task = require("../models/Task");
+
 const Notification = require("../models/Notification");
 
 router.post("/", async (req, res) => {
   const { task_id, requester_id, task_owner_id } = req.body;
+
 
 
   if (!task_id || !requester_id || !task_owner_id) {
@@ -15,11 +17,14 @@ router.post("/", async (req, res) => {
 
   try {
 
+
+
     const newRequest = new Request({
       task_id,
       requester_id,
       task_owner_id,
       status: "pending",
+
 
     });
     await newRequest.save();
@@ -27,6 +32,7 @@ router.post("/", async (req, res) => {
     await Task.findByIdAndUpdate(task_id, { is_request_sent: true });
 
     const requesterUser = await Request.populate(newRequest, { path: "requester_id", select: "first_name last_name profile_picture" });
+
 
     const task = await Task.findById(task_id);
 
@@ -43,7 +49,6 @@ router.post("/", async (req, res) => {
     res.status(500).json({ message: "Failed to send request", error: err.message });
   }
 });
-
 
 router.get("/user/:userId", async (req, res) => {
   try {
@@ -70,6 +75,7 @@ router.get("/user/:userId", async (req, res) => {
 router.put("/:requestId/status", async (req, res) => {
   const { requestId } = req.params;
 
+
   const { status } = req.body;
 
 
@@ -80,7 +86,9 @@ router.put("/:requestId/status", async (req, res) => {
   try {
     const request = await Request.findById(requestId)
 
+
       .populate("requester_id", "first_name last_name profile_picture")
+
 
       .populate("task_id", "title");
 
@@ -89,6 +97,7 @@ router.put("/:requestId/status", async (req, res) => {
 
     request.status = status;
     await request.save();
+
 
 
     if (status === "accepted") {
@@ -136,9 +145,11 @@ router.get("/requester/:userId", async (req, res) => {
       _id: req._id,
       status: req.status,
       createdAt: req.createdAt,
+
       message: req.message,
       task: req.task_id,
       task_owner: req.task_owner_id, 
+
 
     }));
 
@@ -148,6 +159,8 @@ router.get("/requester/:userId", async (req, res) => {
     res.status(500).json({ message: "Error fetching my requests", error: err.message });
   }
 });
+
+
 
 
 module.exports = router;

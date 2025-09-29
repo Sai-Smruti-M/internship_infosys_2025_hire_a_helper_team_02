@@ -6,6 +6,7 @@ const router = express.Router();
 const User = require("../models/User");
 
 
+
 const otpStore = new Map(); 
 
 
@@ -18,7 +19,6 @@ router.post("/send-otp", async (req, res) => {
     const user = await User.findOne({ email_id: email_id.trim().toLowerCase() });
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
-  
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpHashed = crypto.createHash("sha256").update(otp).digest("hex");
 
@@ -61,6 +61,7 @@ router.post("/verify-otp", (req, res) => {
 
     otpStore.delete(email_id); 
 
+
     return res.status(400).json({ success: false, message: "Invalid or expired OTP" });
   }
 
@@ -84,16 +85,11 @@ router.post("/reset-password", async (req, res) => {
 
     // Hash new password
 
-
     const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
     await user.save();
 
    
-
-
-
-    // Remove OTP from memory
 
 
     otpStore.delete(email_id);

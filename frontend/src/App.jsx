@@ -19,10 +19,12 @@ import ForgotPassword from './components/ForgotPassword'
 import ProtectedRoute from './ProtectedRoute'
 
 
+
 function App() {
 
   const [notifications, setNotifications] = useState([]);
   const storedUser = JSON.parse(localStorage.getItem("user"));
+
 
 
   const fetchNotifications = async () => {
@@ -41,6 +43,7 @@ useEffect(() => {
   fetchNotifications();
 }, [storedUser]);
 
+
   return (
     <>
 
@@ -53,11 +56,13 @@ useEffect(() => {
 
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
 
+
             <Route path="/feed" element={<Feed notifications={notifications} refreshNotifications={fetchNotifications} />} />
             <Route path="/tasks" element={<MyTasks notifications={notifications} />} />
             <Route path="/requests" element={<Requests notifications={notifications} refreshNotifications={fetchNotifications}/>} />
             <Route path="/my-requests" element={<MyRequests notifications={notifications} />} />
             <Route path="/add-task" element={<AddTasks notifications={notifications}/>} />
+
 
             <Route path="/settings" element={<Setting notifications={notifications} />} />
             <Route path="/notification" element={<Notifications notifications={notifications} />} />

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const MyRequests = ({ notifications }) => {
 
+
   const navigate = useNavigate();
   const [myRequests, setMyRequests] = useState([]);
   const [search, setSearch] = useState("");
@@ -52,7 +53,9 @@ const MyRequests = ({ notifications }) => {
           <p className="text-gray-400">Track the help requests you’ve sent</p>
         </div>
 
+
         <div className="relative cursor-pointer" onClick={goToNotifications}>
+
 
           <FaBell size={24} />
           <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
@@ -78,6 +81,7 @@ const MyRequests = ({ notifications }) => {
       
       <div className="px-6 pb-10 space-y-4 mt-6">
 
+
         {filteredRequests.length === 0 && (
           <p className="text-gray-400">No requests found.</p>
         )}
@@ -88,6 +92,8 @@ const MyRequests = ({ notifications }) => {
             key={req._id}
             className="flex flex-col bg-white text-black p-4 rounded-lg shadow-md"
           >
+
+
 
             <div className="flex justify-between items-start">
             
@@ -111,6 +117,7 @@ const MyRequests = ({ notifications }) => {
                 <div>
                   <h2 className="font-bold text-lg">{req.task?.title}</h2>
                   <p className="text-sm text-gray-600">
+
 
                     Task owner: {req.task_owner?.first_name}{" "}
                     {req.task_owner?.last_name}
@@ -150,6 +157,7 @@ const MyRequests = ({ notifications }) => {
                 <span className="font-semibold">Location: </span>
                 {req.task?.location || "No location provided."}
 
+
               </p>
             </div>
 
@@ -168,6 +176,7 @@ const MyRequests = ({ notifications }) => {
             {req.task?.picture && (
               <div className="mt-3">
                 <img
+
 
                   src={
                     req.task.picture

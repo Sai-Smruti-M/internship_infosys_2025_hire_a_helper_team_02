@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaBell, FaSearch, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
+
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -19,6 +20,7 @@ const Feed = ({ notifications, refreshNotifications }) => {
       console.error("Error fetching tasks:", err);
     }
   };
+
 
   useEffect(() => {
     fetchTasks();
@@ -64,6 +66,7 @@ const Feed = ({ notifications, refreshNotifications }) => {
   };
 
 
+
   const goToNotifications = () => {
     navigate("/notification");
   };
@@ -74,6 +77,7 @@ const Feed = ({ notifications, refreshNotifications }) => {
     task.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     task.category?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
 
 
   return (
@@ -96,6 +100,7 @@ const Feed = ({ notifications, refreshNotifications }) => {
         <div className="flex items-center bg-white text-black px-4 py-2 rounded-lg w-1/2">
           <FaSearch className="text-gray-500 mr-2" />
 
+
           <input
             type="text"
             placeholder="Search tasks..."
@@ -103,6 +108,7 @@ const Feed = ({ notifications, refreshNotifications }) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)} 
           />
+
 
         </div>
         <Link to="/add-task">
@@ -112,6 +118,7 @@ const Feed = ({ notifications, refreshNotifications }) => {
 
       <div className="flex-1 overflow-y-auto px-6 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+
 
           {filteredTasks.map((task) => { 
 
@@ -139,7 +146,9 @@ const Feed = ({ notifications, refreshNotifications }) => {
                     <div className="flex items-center space-x-2">
                       {userInfo?.profile_picture ? (
 
+
                         <img src={`${userInfo.profile_picture}`} alt={`${userInfo.first_name}`} className="w-8 h-8 rounded-full object-cover" />
+
 
                       ) : (
                         <div className="w-8 h-8 bg-purple-300 rounded-full flex items-center justify-center">

@@ -11,6 +11,7 @@ const Setting = ({ notifications }) => {
   const userId = storedUser?.id;
 
 
+
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -169,18 +170,22 @@ const handleRemovePicture = async () => {
           <p className="text-gray-400">Manage your profile and account preferences</p>
 
         </div>
+
         <div className="relative" onClick={goToNotifications}>
           <FaBell size={24} />
           <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
             {notifications.length}
+
           </span>
         </div>
       </div>
+
 
       <div className="flex justify-center mt-10 px-6 pb-10">
         <form onSubmit={handleSubmit} className="bg-white text-black rounded-xl shadow-lg p-8 w-full max-w-2xl">
           <h2 className="text-2xl font-bold mb-6">Profile Picture</h2>
           <div className="flex items-center gap-6 mb-8">
+
             {form.profile_picture ? (
               <img src={form.profile_picture} alt="Profile" className="w-20 h-20 rounded-full border object-cover" />
             ) : (
@@ -188,6 +193,7 @@ const handleRemovePicture = async () => {
                 {getInitials()}
               </div>
             )}
+
             <div className="flex gap-3 flex-wrap">
               <label className="flex items-center gap-2 px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-lg cursor-pointer">
                 <FaCamera size={18} /> Change Photo
@@ -206,7 +212,9 @@ const handleRemovePicture = async () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
               <label className="block font-semibold">First name</label>
+
               <input type="text" name="first_name" value={form.first_name} onChange={handleChange} className="w-full border rounded p-2" />
+
             </div>
             <div>
               <label className="block font-semibold">Last name</label>
@@ -219,13 +227,17 @@ const handleRemovePicture = async () => {
             <div>
               <label className="block font-semibold">Email Address</label>
 
+
               <input type="email" name="email_id" value={form.email_id} onChange={handleChange} className="w-full border rounded p-2" />
+
             </div>
+
             <div>
               <label className="block font-semibold">Phone Number</label>
               <input type="text" name="phone_number" value={form.phone_number} onChange={handleChange} className="w-full border rounded p-2" />
 
             </div>
+
           </div>
 
           <div className="mb-6">
