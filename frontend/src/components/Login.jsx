@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -8,10 +8,32 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showBackLogoutConfirm, setShowBackLogoutConfirm] = useState(false);
 
 
   const [showPassword, setShowPassword] = useState(false); 
 
+
+  useEffect(() => {
+    // If user + token exist, user navigated here while authenticated (likely via back button)
+    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    if (user && token) {
+      setShowBackLogoutConfirm(true);
+    }
+  }, []);
+
+  const handleConfirmLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    setShowBackLogoutConfirm(false);
+    toast.info('Logged out');
+  };
+
+  const handleStayLoggedIn = () => {
+    // Send them back to dashboard
+    navigate('/feed', { replace: true });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,13 +83,13 @@ const Login = () => {
         </div>
       )}
 
-      <div className="bg-white shadow-md rounded-xl p-8 w-full max-w-md">
+      <div className={`bg-white shadow-md rounded-xl p-8 w-full max-w-md ${showBackLogoutConfirm ? 'opacity-40 pointer-events-none select-none' : ''}`}>
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold text-gray-800">Welcome Back</h2>
           <p className="text-gray-500 text-sm">Sign in to your Hire-a-Helper account</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+  <form onSubmit={handleSubmit} className="mt-6 space-y-5">
           <div>
             <label className="block text-gray-700 text-sm font-semibold mb-1">
               Email address
@@ -129,6 +151,33 @@ const Login = () => {
           </Link>
         </p>
       </div>
+
+      {showBackLogoutConfirm && (
+        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-gray-800">
+            <h2 className="text-lg font-semibold mb-2">You are still logged in</h2>
+            <p className="text-sm text-gray-600 mb-4">
+              You navigated back to the login page while your session is active. Do you want to log out?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={handleStayLoggedIn}
+                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-sm font-medium"
+              >
+                Stay Logged In
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmLogout}
+                className="px-4 py-2 rounded bg-red-500 hover:bg-red-600 text-white text-sm font-medium"
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

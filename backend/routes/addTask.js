@@ -17,6 +17,11 @@ router.post("/", upload.single("picture"), async (req, res) => {
       category,
     } = req.body;
 
+    // Basic validation (optional – extend as needed)
+    if (!user_id || !title) {
+      return res.status(400).json({ success: false, message: "user_id and title are required" });
+    }
+
     const newTask = new Task({
       user_id,
       title,
@@ -26,14 +31,14 @@ router.post("/", upload.single("picture"), async (req, res) => {
       end_time,
       status,
       category,
-      picture: req.file ? `/uploads/${req.file.filename}` : null, 
+      picture: req.file ? `/uploads/${req.file.filename}` : null,
     });
 
     await newTask.save();
-    res.json({ message: "Task created successfully", task: newTask });
+    return res.status(201).json({ success: true, message: "Task created successfully", task: newTask });
   } catch (error) {
-    console.error(error);
-    res.json({ message: "Server error" });
+    console.error("Add Task Error:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 });
 

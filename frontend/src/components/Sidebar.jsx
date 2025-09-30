@@ -1,5 +1,6 @@
 import React from "react";
 import { FaHome, FaClipboardList } from "react-icons/fa";
+import { MdOutlineOutbox } from "react-icons/md";
 import { FaFolderOpen } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
 import { IoMdSettings } from "react-icons/io";
@@ -94,7 +95,7 @@ const Sidebar = () => {
             }`
           }
         >
-          <FaFolderOpen size={20} />
+          <MdOutlineOutbox size={20} />
           <span>My Requests</span>
         </NavLink>
 

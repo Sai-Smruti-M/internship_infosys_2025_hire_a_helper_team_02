@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaBell, FaSearch, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const MyTasks = ({ notifications }) => {
 
@@ -30,6 +31,23 @@ const MyTasks = ({ notifications }) => {
 
   const goToNotifications = () => {
     navigate("/notification");
+  };
+
+  const handleDelete = async (taskId) => {
+    const confirmed = window.confirm('Are you sure you want to delete this task? This action cannot be undone.');
+    if (!confirmed) return;
+    try {
+      const res = await axios.delete(`http://localhost:5000/my-tasks/${taskId}?user_id=${storedUser.id}`);
+      if (res.data.success) {
+        setTasks(prev => prev.filter(t => t._id !== taskId));
+        toast.success('Task deleted');
+      } else {
+        toast.error(res.data.message || 'Failed to delete task');
+      }
+    } catch (err) {
+      console.error('Delete task error:', err);
+      toast.error('Server error deleting task');
+    }
   };
 
 
@@ -126,6 +144,12 @@ const MyTasks = ({ notifications }) => {
                   >
                     {task.status}
                   </span>
+                  <button
+                    onClick={() => handleDelete(task._id)}
+                    className="px-3 py-1 rounded-full text-xs font-semibold bg-red-500 text-white hover:bg-red-600 transition"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
