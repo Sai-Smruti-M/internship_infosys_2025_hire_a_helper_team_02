@@ -9,7 +9,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+
   const [showPassword, setShowPassword] = useState(false); 
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +53,9 @@ const Login = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-4 p-8 bg-white/90 rounded-xl shadow-xl">
             <span className="h-12 w-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+
             <p className="text-gray-700 font-semibold">Authenticating...</p>
+
             <p className="text-xs text-gray-500">Please wait</p>
           </div>
         </div>
