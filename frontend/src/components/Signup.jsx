@@ -12,9 +12,11 @@ const Signup = () => {
     phone_number: "",
     password: "",
 
+
     profile_image: null, 
   });
   const [loading, setLoading] = useState(false);
+
 
 
   const handleChange = (e) => {
@@ -143,7 +145,29 @@ const Signup = () => {
 
           
 
+
           <div>
+
+
+  <label className="block text-gray-700 text-sm font-semibold mb-1">
+    Password
+  </label>
+  <input
+    type="password"
+    name="password"
+    value={formData.password}
+    onChange={handleChange}
+    placeholder="Enter your password"
+    className="w-full border border-gray-300 rounded-md px-3 py-2"
+    required
+  />
+</div>
+
+
+          
+          <div>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Profile Image (optional)</label>
+
 
   <label className="block text-gray-700 text-sm font-semibold mb-1">
     Password
