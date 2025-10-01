@@ -79,19 +79,20 @@ const MyRequests = ({ notifications }) => {
       </div>
 
       
-      <div className="px-6 pb-10 space-y-4 mt-6">
 
+      <div className="px-6 pb-10 mt-6 flex-1">
+        {filteredRequests.length === 0 ? (
+          <div className="flex items-center justify-center h-[50vh]">
+            <p className="text-gray-400 text-2xl font-semibold">No requests found.</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+          {filteredRequests.map((req) => (
+            <div
+              key={req._id}
+              className="flex flex-col bg-white text-black p-4 rounded-lg shadow-md"
+            >
 
-        {filteredRequests.length === 0 && (
-          <p className="text-gray-400">No requests found.</p>
-        )}
-
-
-        {filteredRequests.map((req) => (
-          <div
-            key={req._id}
-            className="flex flex-col bg-white text-black p-4 rounded-lg shadow-md"
-          >
 
 
 
@@ -149,11 +150,13 @@ const MyRequests = ({ notifications }) => {
           
             <div className="bg-gray-200 p-3 rounded mt-3">
               <p className="font-semibold">Task Information:</p>
+
               <p className="text-sm text-gray-700 mt-1">
                 <span className="font-semibold">Description: </span>
                 {req.task?.description || "No description available."}
               </p>
               <p className="text-sm text-gray-700 mt-1">
+
                 <span className="font-semibold">Location: </span>
                 {req.task?.location || "No location provided."}
 
@@ -189,11 +192,9 @@ const MyRequests = ({ notifications }) => {
                 />
               </div>
             )}
+            </div>
+          ))}
           </div>
-        ))}
-
-        {filteredRequests.length === 0 && (
-          <p className="text-gray-400">No requests found.</p>
         )}
       </div>
     </div>

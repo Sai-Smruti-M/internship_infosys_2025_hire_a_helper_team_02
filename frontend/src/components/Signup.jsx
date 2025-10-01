@@ -69,25 +69,30 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-600 to-cyan-400 px-2 sm:px-4 relative overflow-auto">
+
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-600 to-cyan-400 px-4 relative">
       {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="flex flex-col items-center gap-4 p-6 sm:p-8 bg-white/90 rounded-xl shadow-xl">
-            <span className="h-10 w-10 sm:h-12 sm:w-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
-            <p className="text-gray-700 font-semibold text-base sm:text-lg" role="status" aria-live="polite">Sending OTP...</p>
+          <div className="flex flex-col items-center gap-4 p-8 bg-white/90 rounded-xl shadow-xl">
+            <span className="h-12 w-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+            <p className="text-gray-700 font-semibold" role="status" aria-live="polite">Sending OTP...</p>
+
             <p className="text-xs text-gray-500">Please wait</p>
           </div>
         </div>
       )}
-      <div className="bg-white shadow-md rounded-xl p-4 sm:p-8 w-full max-w-md mt-6 sm:mt-12 mx-auto overflow-y-auto max-h-[95vh]">
+
+      <div className="bg-white shadow-md rounded-xl p-8 w-full max-w-md mt-12">
         <div className="flex flex-col items-center">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Create Account</h2>
           <p className="text-gray-500 text-xs sm:text-sm">Join Hire-a-Helper community</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-4 sm:mt-6 space-y-4 sm:space-y-5">
+
+        <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+         
           <div>
-            <label className="block text-gray-700 text-xs sm:text-sm font-semibold mb-1">First name</label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">First name</label>
             <input
               type="text"
               name="first_name"
@@ -98,8 +103,11 @@ const Signup = () => {
               required
             />
           </div>
+
+
+          
           <div>
-            <label className="block text-gray-700 text-xs sm:text-sm font-semibold mb-1">Last name</label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Last name</label>
             <input
               type="text"
               name="last_name"
@@ -110,8 +118,12 @@ const Signup = () => {
               required
             />
           </div>
+
+
+          
           <div>
-            <label className="block text-gray-700 text-xs sm:text-sm font-semibold mb-1">Email Address</label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Email Address</label>
+
             <input
               type="email"
               name="email_id"
@@ -122,8 +134,12 @@ const Signup = () => {
               required
             />
           </div>
+
+
+          
           <div>
-            <label className="block text-gray-700 text-xs sm:text-sm font-semibold mb-1">Phone Number</label>
+            <label className="block text-gray-700 text-sm font-semibold mb-1">Phone Number</label>
+
             <input
               type="text"
               name="phone_number"
@@ -135,6 +151,7 @@ const Signup = () => {
               required
             />
           </div>
+
           <div>
             <label className="block text-gray-700 text-xs sm:text-sm font-semibold mb-1">Password</label>
             <input
@@ -160,6 +177,7 @@ const Signup = () => {
             type="submit"
             disabled={loading}
             className={`w-full py-2 rounded-md text-white font-semibold bg-gradient-to-r from-indigo-500 to-cyan-400 transition text-xs sm:text-base ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90'}`}
+
           >
             {loading ? 'Processing...' : 'Create Account'}
           </button>
