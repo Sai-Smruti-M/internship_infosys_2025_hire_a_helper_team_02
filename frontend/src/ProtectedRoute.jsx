@@ -1,5 +1,7 @@
 
+
 import React, { useEffect, useState } from "react";
+
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 
@@ -9,6 +11,7 @@ const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   const location = useLocation();
   const navigate = useNavigate();
+
 
 
   const [showConfirm, setShowConfirm] = useState(false);
@@ -61,6 +64,7 @@ const ProtectedRoute = ({ children }) => {
     setShowConfirm(false);
     // No extra action needed; guard already re-armed during pop handler
   };
+
 
 
   if (!user || !token) {

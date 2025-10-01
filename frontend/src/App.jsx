@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Login from './components/Login'
+import LandingPage from './components/LandingPage'
 import Signup from './components/Signup'
 import EmailVerification from './components/EmailVerification'
 import Feed from './components/Feed'
@@ -49,9 +50,11 @@ useEffect(() => {
 
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/register" element={<Signup />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/email" element={<EmailVerification />} />
 
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
@@ -72,15 +75,15 @@ useEffect(() => {
         </Routes>
       </BrowserRouter>
 
-      <ToastContainer 
+      <ToastContainer
 
-        position="top-center"   
-        autoClose={3000}       
+        position="top-center"
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
         draggable
-        theme="colored"        
+        theme="colored"
       />
     </>
   )

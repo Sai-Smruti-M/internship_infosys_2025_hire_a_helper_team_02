@@ -8,10 +8,13 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
   const [showBackLogoutConfirm, setShowBackLogoutConfirm] = useState(false);
 
 
+
   const [showPassword, setShowPassword] = useState(false); 
+
 
 
   useEffect(() => {
@@ -34,6 +37,7 @@ const Login = () => {
     // Send them back to dashboard
     navigate('/feed', { replace: true });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,6 +88,7 @@ const Login = () => {
       )}
 
       <div className={`bg-white shadow-md rounded-xl p-8 w-full max-w-md ${showBackLogoutConfirm ? 'opacity-40 pointer-events-none select-none' : ''}`}>
+
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold text-gray-800">Welcome Back</h2>
           <p className="text-gray-500 text-sm">Sign in to your Hire-a-Helper account</p>

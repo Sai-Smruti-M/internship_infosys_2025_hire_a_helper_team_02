@@ -69,21 +69,25 @@ const Signup = () => {
   };
 
   return (
+
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-600 to-cyan-400 px-4 relative">
       {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-4 p-8 bg-white/90 rounded-xl shadow-xl">
             <span className="h-12 w-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
             <p className="text-gray-700 font-semibold" role="status" aria-live="polite">Sending OTP...</p>
+
             <p className="text-xs text-gray-500">Please wait</p>
           </div>
         </div>
       )}
+
       <div className="bg-white shadow-md rounded-xl p-8 w-full max-w-md mt-12">
         <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-bold text-gray-800">Create Account</h2>
-          <p className="text-gray-500 text-sm">Join Hire-a-Helper community</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Create Account</h2>
+          <p className="text-gray-500 text-xs sm:text-sm">Join Hire-a-Helper community</p>
         </div>
+
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
          
@@ -95,10 +99,11 @@ const Signup = () => {
               value={formData.first_name}
               onChange={handleChange}
               placeholder="Enter your First name"
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
               required
             />
           </div>
+
 
           
           <div>
@@ -109,28 +114,32 @@ const Signup = () => {
               value={formData.last_name}
               onChange={handleChange}
               placeholder="Enter your Last name"
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
               required
             />
           </div>
 
+
           
           <div>
             <label className="block text-gray-700 text-sm font-semibold mb-1">Email Address</label>
+
             <input
               type="email"
               name="email_id"
               value={formData.email_id}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
               required
             />
           </div>
 
+
           
           <div>
             <label className="block text-gray-700 text-sm font-semibold mb-1">Phone Number</label>
+
             <input
               type="text"
               name="phone_number"
@@ -138,56 +147,44 @@ const Signup = () => {
               onChange={handleChange}
               maxLength="10"
               placeholder="Enter your Phone number"
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
               required
             />
           </div>
 
-          
-
-
           <div>
-
-  <label className="block text-gray-700 text-sm font-semibold mb-1">
-    Password
-  </label>
-  <input
-    type="password"
-    name="password"
-    value={formData.password}
-    onChange={handleChange}
-    placeholder="Enter your password"
-    className="w-full border border-gray-300 rounded-md px-3 py-2"
-    required
-  />
-</div>
-
-
-          
+            <label className="block text-gray-700 text-xs sm:text-sm font-semibold mb-1">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              required
+            />
+          </div>
           <div>
-            <label className="block text-gray-700 text-sm font-semibold mb-1">Profile Image (optional)</label>
-
+            <label className="block text-gray-700 text-xs sm:text-sm font-semibold mb-1">Profile Image (optional)</label>
             <input
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className="w-full"
+              className="w-full text-xs sm:text-sm"
             />
           </div>
-
-
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 rounded-md text-white font-semibold bg-gradient-to-r from-indigo-500 to-cyan-400 transition ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90'}`}
+            className={`w-full py-2 rounded-md text-white font-semibold bg-gradient-to-r from-indigo-500 to-cyan-400 transition text-xs sm:text-base ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90'}`}
+
           >
             {loading ? 'Processing...' : 'Create Account'}
           </button>
         </form>
-
-        <p className="mt-6 text-center text-sm text-gray-600">
-          Already have an account?{" "}
-          <Link to={"/"} className="text-blue-600 font-medium hover:underline">
+        <p className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-gray-600">
+          Already have an account?{' '}
+          <Link to={'/'} className="text-blue-600 font-medium hover:underline">
             Sign in
           </Link>
         </p>

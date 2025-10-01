@@ -1,0 +1,5 @@
+- [x] Update tailwind.config.js to enable class-based dark mode
+- [x] Create ThemeContext.jsx for theme management
+- [x] Update App.jsx to use ThemeProvider and apply dark class
+- [x] Update Sidebar.jsx to add theme toggle and theme-aware classes
+- [ ] Test theme switching functionality
