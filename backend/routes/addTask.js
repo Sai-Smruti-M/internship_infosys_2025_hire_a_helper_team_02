@@ -3,7 +3,7 @@ const router = express.Router();
 const Task = require("../models/Task");
 const multer = require("multer");
 
-// Use memoryStorage to store file in memory
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 

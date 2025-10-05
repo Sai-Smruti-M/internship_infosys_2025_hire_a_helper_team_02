@@ -43,11 +43,11 @@ const Sidebar = () => {
 
   return (
     <div className="fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white flex flex-col p-4 border-r border-gray-700">
-      {/* Profile */}
+     
       <div className="bg-gray-50 rounded-xl p-4 flex flex-col items-center mb-6">
         {user?.profile_image ? (
           <img
-            src={user.profile_image} // Base64 string from backend
+            src={user.profile_image} 
             alt="Profile"
             className="w-16 h-16 rounded-full object-cover mb-2"
           />
@@ -65,7 +65,7 @@ const Sidebar = () => {
         </p>
       </div>
 
-      {/* Navigation */}
+    
       <nav className="flex flex-col space-y-2 flex-grow">
         <NavLink
           to="/feed"

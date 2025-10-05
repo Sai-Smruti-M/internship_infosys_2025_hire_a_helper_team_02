@@ -18,7 +18,7 @@ const Login = () => {
 
 
   useEffect(() => {
-    // If user + token exist, user navigated here while authenticated (likely via back button)
+   
     const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
     if (user && token) {
@@ -34,7 +34,7 @@ const Login = () => {
   };
 
   const handleStayLoggedIn = () => {
-    // Send them back to dashboard
+    
     navigate('/feed', { replace: true });
   };
 

@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children }) => {
   } catch { /* ignore pushState errors */ }
     };
 
-    // Arm on mount
+   
     ensureHashGuard();
     pushDummy();
 
@@ -60,7 +60,7 @@ const ProtectedRoute = ({ children }) => {
 
   const cancelBack = () => {
     setShowConfirm(false);
-    // No extra action needed; guard already re-armed during pop handler
+    
   };
 
 

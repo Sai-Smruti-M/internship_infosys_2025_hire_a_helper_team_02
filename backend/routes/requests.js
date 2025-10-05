@@ -6,13 +6,12 @@ const AcceptedTask = require("../models/AcceptedTasks");
 const Task = require("../models/Task");
 const Notification = require("../models/Notification");
 
-// Helper: convert image buffer to base64
+
 const bufferToBase64 = (image) => {
   if (!image || !image.data) return null;
   return `data:${image.contentType};base64,${image.data.toString("base64")}`;
 };
 
-// -------------------- CREATE REQUEST --------------------
 router.post("/", async (req, res) => {
   const { task_id, requester_id, task_owner_id } = req.body;
   if (!task_id || !requester_id || !task_owner_id) {
@@ -28,10 +27,10 @@ router.post("/", async (req, res) => {
     });
     await newRequest.save();
 
-    // mark task as request sent
+   
     await Task.findByIdAndUpdate(task_id, { is_request_sent: true });
 
-    // populate requester info
+    
     const requesterUser = await Request.populate(newRequest, { path: "requester_id", select: "first_name last_name profile_image" });
     const task = await Task.findById(task_id);
 
@@ -45,7 +44,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// -------------------- GET REQUESTS FOR TASK OWNER --------------------
 router.get("/user/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -78,7 +76,6 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
-// -------------------- GET REQUESTS SENT BY REQUESTER --------------------
 router.get("/requester/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -110,7 +107,7 @@ router.get("/requester/:userId", async (req, res) => {
   }
 });
 
-// -------------------- UPDATE REQUEST STATUS --------------------
+
 router.put("/:requestId/status", async (req, res) => {
   const { requestId } = req.params;
   const { status } = req.body;

@@ -4,17 +4,17 @@ const User = require('../models/User');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
 
-// ✅ Multer in-memory storage (no disk saving)
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// GET user by ID
+
 router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    // Convert image buffer to Base64 string for frontend
+   
     let profile_image = '';
     if (user.profile_image && user.profile_image.data) {
       profile_image = `data:${user.profile_image.contentType};base64,${user.profile_image.data.toString('base64')}`;
@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// UPDATE user info
+
 router.put('/:id', async (req, res) => {
   const { email_id } = req.body;
 
@@ -42,7 +42,7 @@ router.put('/:id', async (req, res) => {
 
     if (!updatedUser) return res.status(404).json({ success: false, message: 'User not found' });
 
-    // Convert image buffer to Base64 for frontend
+    
     let profile_image = '';
     if (updatedUser.profile_image && updatedUser.profile_image.data) {
       profile_image = `data:${updatedUser.profile_image.contentType};base64,${updatedUser.profile_image.data.toString('base64')}`;
@@ -55,7 +55,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// UPLOAD profile picture
+
 router.post('/:id', upload.single('profile_picture'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ success: false, message: 'No file uploaded' });
@@ -77,7 +77,7 @@ router.post('/:id', upload.single('profile_picture'), async (req, res) => {
   }
 });
 
-// REMOVE profile picture
+
 router.delete('/remove-profile-picture/:id', async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(
@@ -95,7 +95,7 @@ router.delete('/remove-profile-picture/:id', async (req, res) => {
   }
 });
 
-// CHANGE PASSWORD
+
 router.post('/change-password/:id', async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 

@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
       return res.json({ success: false, message: "OTP expired" });
     }
 
-    // ✅ Prepare user data (with image buffer)
+    
     const { first_name, last_name, email_id, password, phone_number, profile_image } =
       otpData.userData;
 
@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
       password,
       phone_number,
       isVerified: true,
-      // ✅ Store full image buffer directly in MongoDB
+      
       profile_image: profile_image
         ? {
             data: profile_image.data,
@@ -49,11 +49,11 @@ router.post("/", async (req, res) => {
           },
     };
 
-    // ✅ Save user to MongoDB
+   
     const newUser = new User(userData);
     await newUser.save();
 
-    // ✅ Remove user data from temporary memory
+ 
     delete otpStore[email];
 
     res.json({ success: true, message: "Email verified & user registered successfully!" });

@@ -19,7 +19,7 @@ const Setting = ({ notifications }) => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordForm, setPasswordForm] = useState({ currentPassword: '', newPassword: '' });
 
-  // Load user info on mount
+ 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (!storedUser) return;
@@ -34,14 +34,14 @@ const Setting = ({ notifications }) => {
       profile_picture,
       bio: storedUser.bio || ''
     });
-  }, []); // Only run once on mount
+  }, []); 
 
-  const userId = JSON.parse(localStorage.getItem("user"))?.id; // Get fresh userId
+  const userId = JSON.parse(localStorage.getItem("user"))?.id; 
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
   const handlePasswordChange = e => setPasswordForm({ ...passwordForm, [e.target.name]: e.target.value });
 
-  // Upload profile picture
+  
   const handleProfilePicture = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -70,7 +70,7 @@ const Setting = ({ notifications }) => {
     }
   };
 
-  // Remove profile picture
+ 
   const handleRemovePicture = async () => {
     try {
       const res = await axios.delete(`http://localhost:5000/api/settings/remove-profile-picture/${userId}`);
@@ -91,7 +91,7 @@ const Setting = ({ notifications }) => {
     }
   };
 
-  // Update user info
+ 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -127,7 +127,7 @@ const Setting = ({ notifications }) => {
     }
   };
 
-  // Change password
+  
   const handlePasswordSubmit = async e => {
     e.preventDefault();
     try {

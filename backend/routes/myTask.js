@@ -4,14 +4,14 @@ const mongoose = require("mongoose");
 
 const router = express.Router();
 
-// Get all tasks of a specific user
+
 router.get("/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
 
     const tasks = await Task.find({ user_id });
 
-    // Convert task images to Base64 if stored as buffer
+   
     const tasksWithImages = tasks.map(task => {
       let taskImage = null;
       if (task.picture && task.picture.data) {
@@ -27,11 +27,11 @@ router.get("/:user_id", async (req, res) => {
   }
 });
 
-// Delete a task (only by owner)
+
 router.delete("/:taskId", async (req, res) => {
   try {
     const { taskId } = req.params;
-    const { user_id } = req.query; // expecting ?user_id=...
+    const { user_id } = req.query;
 
     if (!user_id) {
       return res.status(400).json({ success: false, message: "user_id is required" });

@@ -17,7 +17,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// ✅ Multer config to store file in memory (not disk)
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -29,22 +28,21 @@ router.post("/", upload.single("profile_image"), async (req, res) => {
       return res.json({ success: false, message: "Please provide all required fields" });
     }
 
-    // ✅ Prepare the image as binary buffer
+
     let profile_image = null;
     if (req.file) {
       profile_image = {
-        data: req.file.buffer,       // full binary data
-        contentType: req.file.mimetype, // like 'image/jpeg'
+        data: req.file.buffer,       
+        contentType: req.file.mimetype, 
       };
     }
 
-    // Generate OTP
+   
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
 
-    // Hash password
+  
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ✅ Store user temporarily in otpStore before OTP verification
     otpStore[email_id] = {
       otp,
       userData: {
@@ -53,12 +51,12 @@ router.post("/", upload.single("profile_image"), async (req, res) => {
         phone_number,
         email_id,
         password: hashedPassword,
-        profile_image, // Store image as binary
+        profile_image, 
       },
       expiresAt: Date.now() + 5 * 60 * 1000,
     };
 
-    // Send OTP
+    
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email_id,
