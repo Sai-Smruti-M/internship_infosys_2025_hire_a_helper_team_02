@@ -1,15 +1,16 @@
-
 import React from "react";
-
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 
 const Layout = () => {
+  const location = useLocation(); // Get current location
+
   return (
     <div className="flex">
-      <Sidebar/>
+      <Sidebar />
       <div className="flex-1">
-        <Outlet /> 
+        {/* Force remount when path changes */}
+        <Outlet key={location.pathname} />
       </div>
     </div>
   );

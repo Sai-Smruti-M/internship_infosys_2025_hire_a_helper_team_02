@@ -23,6 +23,12 @@ router.post("/", async (req, res) => {
     const payload = { id: user._id, email_id: user.email_id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
 
+    // ✅ Convert binary profile image to Base64 string for frontend
+    let profileImageBase64 = null;
+    if (user.profile_image && user.profile_image.data) {
+      profileImageBase64 = `data:${user.profile_image.contentType};base64,${user.profile_image.data.toString("base64")}`;
+    }
+
     res.json({
       success: true,
       message: "Login successful",
@@ -32,9 +38,9 @@ router.post("/", async (req, res) => {
         first_name: user.first_name,
         last_name: user.last_name,
         email_id: user.email_id,
-        phone_number:user.phone_number,
-        profile_picture:user.profile_picture,
-        bio:user.bio,
+        phone_number: user.phone_number,
+        profile_image: profileImageBase64, // Updated field
+        bio: user.bio,
       },
     });
   } catch (error) {

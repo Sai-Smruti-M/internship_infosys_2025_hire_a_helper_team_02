@@ -1,23 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const Task = require("../models/Task");
-const upload = require("../middleware/upload");
+const multer = require("multer");
 
+// Use memoryStorage to store file in memory
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 router.post("/", upload.single("picture"), async (req, res) => {
   try {
-    const {
-      user_id,
-      title,
-      description,
-      location,
-      start_time,
-      end_time,
-      status,
-      category,
-    } = req.body;
+    const { user_id, title, description, location, start_time, end_time, status, category } = req.body;
 
-    // Basic validation (optional – extend as needed)
     if (!user_id || !title) {
       return res.status(400).json({ success: false, message: "user_id and title are required" });
     }
@@ -31,7 +24,7 @@ router.post("/", upload.single("picture"), async (req, res) => {
       end_time,
       status,
       category,
-      picture: req.file ? `/uploads/${req.file.filename}` : null,
+      picture: req.file ? { data: req.file.buffer, contentType: req.file.mimetype } : null,
     });
 
     await newTask.save();

@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaHome, FaClipboardList } from "react-icons/fa";
-
 import { MdOutlineOutbox } from "react-icons/md";
-
 import { FaFolderOpen } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
 import { IoMdSettings } from "react-icons/io";
@@ -10,28 +8,46 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(() => {
+    // Initialize from localStorage
+    return JSON.parse(localStorage.getItem("user")) || null;
+  });
 
- const handleLogout = () => {
-  const confirmed = window.confirm("Are you sure you want to logout?");
-  if (!confirmed) return;
-  localStorage.removeItem("user");
-  localStorage.removeItem("token");
-  navigate("/", { replace: true });
-};
+  // Update state if localStorage changes
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const updatedUser = JSON.parse(localStorage.getItem("user"));
+      setUser(updatedUser);
+    };
 
-  
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (!confirmed) return;
+
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setUser(null);
+    navigate("/", { replace: true });
+  };
+
   const profileLetter =
     (user?.first_name ? user.first_name.charAt(0).toUpperCase() : "") +
     (user?.last_name ? user.last_name.charAt(0).toUpperCase() : "");
 
   return (
     <div className="fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white flex flex-col p-4 border-r border-gray-700">
-     
+      {/* Profile */}
       <div className="bg-gray-50 rounded-xl p-4 flex flex-col items-center mb-6">
-        {user?.profile_picture ? (
+        {user?.profile_image ? (
           <img
-            src={user.profile_picture}
+            src={user.profile_image} // Base64 string from backend
             alt="Profile"
             className="w-16 h-16 rounded-full object-cover mb-2"
           />
@@ -41,7 +57,6 @@ const Sidebar = () => {
           </div>
         )}
 
-
         <h2 className="text-lg font-semibold text-gray-900">
           {user ? `${user.first_name} ${user.last_name}` : "Guest"}
         </h2>
@@ -49,7 +64,6 @@ const Sidebar = () => {
           {user ? user.email_id : "guest@example.com"}
         </p>
       </div>
-
 
       {/* Navigation */}
       <nav className="flex flex-col space-y-2 flex-grow">
@@ -97,9 +111,7 @@ const Sidebar = () => {
             }`
           }
         >
-
           <MdOutlineOutbox size={20} />
-
           <span>My Requests</span>
         </NavLink>
 
@@ -122,14 +134,12 @@ const Sidebar = () => {
               isActive ? "bg-teal-500" : "hover:bg-teal-500"
             }`
           }
-
         >
           <IoMdSettings size={20} />
           <span>Settings</span>
         </NavLink>
       </nav>
 
-     
       <button
         onClick={handleLogout}
         className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition"
