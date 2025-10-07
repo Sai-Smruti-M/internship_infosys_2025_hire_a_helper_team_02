@@ -1,10 +1,13 @@
+
 import React, { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+
 
 const ProtectedRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
   const location = useLocation();
+
 
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -51,6 +54,7 @@ const ProtectedRoute = ({ children }) => {
     // Push dummy state again to prevent back
     window.history.pushState(null, "", window.location.href);
   };
+
 
   if (!user || !token) {
     return <Navigate to="/" replace state={{ from: location }} />;

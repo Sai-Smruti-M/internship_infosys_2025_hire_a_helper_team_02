@@ -1,6 +1,9 @@
+
 import React, { useState, useEffect } from "react";
 import { FaHome, FaClipboardList, FaBars, FaTimes } from "react-icons/fa";
+
 import { MdOutlineOutbox } from "react-icons/md";
+
 import { FaFolderOpen } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
 import { IoMdSettings } from "react-icons/io";
@@ -39,6 +42,7 @@ const Sidebar = () => {
     { to: "/add-task", icon: <FiPlus size={20} />, label: "Add Task" },
     { to: "/settings", icon: <IoMdSettings size={20} />, label: "Settings" },
   ];
+
 
   return (
     <>
@@ -84,6 +88,7 @@ const Sidebar = () => {
         <button
           onClick={handleLogout}
           className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition"
+
         >
           Logout
         </button>

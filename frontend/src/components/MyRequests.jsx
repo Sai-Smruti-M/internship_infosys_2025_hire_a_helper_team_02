@@ -76,14 +76,17 @@ const MyRequests = ({ notifications }) => {
             </Link>
           </div>
 
+
       {/* Requests List */}
       <div className="px-4 sm:px-6 pb-10 mt-6 flex-1">
+
         {filteredRequests.length === 0 ? (
           <div className="flex items-center justify-center h-[50vh]">
             <p className="text-gray-400 text-2xl font-semibold">No requests found.</p>
           </div>
         ) : (
           <div className="space-y-4">
+
             {filteredRequests.map((req) => (
               <div
                 key={req._id}
@@ -109,6 +112,7 @@ const MyRequests = ({ notifications }) => {
                       <p className="text-sm text-gray-600">
                         Task owner: {req.task_owner?.first_name} {req.task_owner?.last_name}
                       </p>
+
                     </div>
                   </div>
 
@@ -141,6 +145,8 @@ const MyRequests = ({ notifications }) => {
                     {req.task?.location || "No location provided."}
                   </p>
                 </div>
+
+
 
                 <div className="flex flex-col sm:flex-row text-sm text-gray-600 gap-2 sm:space-x-6 mt-2">
                   <span className="flex items-center">
