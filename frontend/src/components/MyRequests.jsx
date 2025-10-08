@@ -76,10 +76,8 @@ const MyRequests = ({ notifications }) => {
             </Link>
           </div>
 
-
       {/* Requests List */}
       <div className="px-4 sm:px-6 pb-10 mt-6 flex-1">
-
         {filteredRequests.length === 0 ? (
           <div className="flex items-center justify-center h-[50vh]">
             <p className="text-gray-400 text-2xl font-semibold">No requests found.</p>

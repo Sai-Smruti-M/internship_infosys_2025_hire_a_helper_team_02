@@ -45,8 +45,10 @@ const Feed = ({ notifications, refreshNotifications }) => {
       const data = await response.json();
       if (data.success) {
         toast.success("Request sent successfully!");
-        setTasks(prev =>
-          prev.map(t => (t._id === task._id ? { ...t, is_request_sent: true } : t))
+        setTasks((prev) =>
+          prev.map((t) =>
+            t._id === task._id ? { ...t, is_request_sent: true } : t
+          )
         );
       } else {
         toast.error(data.message);
