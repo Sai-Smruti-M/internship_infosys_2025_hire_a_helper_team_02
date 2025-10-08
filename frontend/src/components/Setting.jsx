@@ -19,6 +19,7 @@ const Setting = ({ notifications }) => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordForm, setPasswordForm] = useState({ currentPassword: '', newPassword: '' });
 
+ 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (!storedUser) return;
@@ -40,6 +41,7 @@ const Setting = ({ notifications }) => {
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
   const handlePasswordChange = e => setPasswordForm({ ...passwordForm, [e.target.name]: e.target.value });
 
+  
   const handleProfilePicture = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -88,6 +90,7 @@ const Setting = ({ notifications }) => {
     }
   };
 
+ 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -123,6 +126,7 @@ const Setting = ({ notifications }) => {
     }
   };
 
+  
   const handlePasswordSubmit = async e => {
     e.preventDefault();
     try {

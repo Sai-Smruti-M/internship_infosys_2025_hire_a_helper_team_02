@@ -136,32 +136,13 @@ const AddTasks = ({ notifications }) => {
           <p className="text-gray-600 mb-6">Create a task and find someone to help you</p>
 
           <label className="block font-semibold">Task Title</label>
-          <input
-            type="text"
-            name="title"
-            value={taskData.title}
-            onChange={handleChange}
-            className="w-full border rounded p-2 mb-4"
-            required
-          />
+          <input type="text" name="title" value={taskData.title} onChange={handleChange} className="w-full border rounded p-2 mb-4" required />
 
           <label className="block font-semibold">Description</label>
-          <textarea
-            name="description"
-            value={taskData.description}
-            onChange={handleChange}
-            className="w-full border rounded p-2 mb-4"
-            rows="3"
-          />
+          <textarea name="description" value={taskData.description} onChange={handleChange} className="w-full border rounded p-2 mb-4" rows="3" />
 
           <label className="block font-semibold">Location</label>
-          <input
-            type="text"
-            name="location"
-            value={taskData.location}
-            onChange={handleChange}
-            className="w-full border rounded p-2 mb-4"
-          />
+          <input type="text" name="location" value={taskData.location} onChange={handleChange} className="w-full border rounded p-2 mb-4" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -176,43 +157,20 @@ const AddTasks = ({ notifications }) => {
             </div>
             <div>
               <label className="block font-semibold">Start Time</label>
-              <input
-                type="time"
-                name="startTime"
-                value={taskData.startTime}
-                onChange={handleChange}
-                className="w-full border rounded p-2 mb-4"
-              />
+              <input type="time" name="startTime" value={taskData.startTime} onChange={handleChange} className="w-full border rounded p-2 mb-4" />
             </div>
             <div>
               <label className="block font-semibold">End Date (Optional)</label>
-              <input
-                type="date"
-                name="endDate"
-                value={taskData.endDate}
-                onChange={handleChange}
-                className="w-full border rounded p-2 mb-4"
-              />
+              <input type="date" name="endDate" value={taskData.endDate} onChange={handleChange} className="w-full border rounded p-2 mb-4" />
             </div>
             <div>
               <label className="block font-semibold">End Time (Optional)</label>
-              <input
-                type="time"
-                name="endTime"
-                value={taskData.endTime}
-                onChange={handleChange}
-                className="w-full border rounded p-2 mb-4"
-              />
+              <input type="time" name="endTime" value={taskData.endTime} onChange={handleChange} className="w-full border rounded p-2 mb-4" />
             </div>
           </div>
 
           <label className="block font-semibold">Category</label>
-          <select
-            name="category"
-            value={taskData.category}
-            onChange={handleChange}
-            className="w-full border rounded p-2 mb-4"
-          >
+          <select name="category" value={taskData.category} onChange={handleChange} className="w-full border rounded p-2 mb-4">
             <option value="">Select category</option>
             <option value="moving">Moving</option>
             <option value="cleaning">Cleaning</option>
@@ -223,14 +181,7 @@ const AddTasks = ({ notifications }) => {
           <label className="block font-semibold">Task Image (Optional)</label>
           {!imagePreview ? (
             <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 text-center mb-6">
-              <input
-                type="file"
-                name="image"
-                accept="image/png, image/jpeg, image/gif"
-                onChange={handleChange}
-                className="hidden"
-                id="file-upload"
-              />
+              <input type="file" name="image" accept="image/png, image/jpeg, image/gif" onChange={handleChange} className="hidden" id="file-upload" />
               <label htmlFor="file-upload" className="cursor-pointer">
                 <div className="flex flex-col items-center">
                   <span className="text-3xl">📤</span>
@@ -254,19 +205,9 @@ const AddTasks = ({ notifications }) => {
                 >
                   <FaTrash /> Remove
                 </button>
-                <label
-                  htmlFor="file-upload"
-                  className="bg-blue-500 text-white px-3 py-1 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-blue-600"
-                >
+                <label htmlFor="file-upload" className="bg-blue-500 text-white px-3 py-1 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-blue-600">
                   <FaCamera /> Change
-                  <input
-                    type="file"
-                    name="image"
-                    accept="image/png, image/jpeg, image/gif"
-                    onChange={handleChange}
-                    className="hidden"
-                    id="file-upload"
-                  />
+                  <input type="file" name="image" accept="image/png, image/jpeg, image/gif" onChange={handleChange} className="hidden" id="file-upload" />
                 </label>
               </div>
             </div>
