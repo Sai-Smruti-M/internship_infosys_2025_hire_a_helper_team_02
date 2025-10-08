@@ -24,6 +24,7 @@ const MyTasks = ({ notifications }) => {
 
   const goToNotifications = () => navigate("/notification");
 
+
   const handleDelete = async (taskId) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this task? This action cannot be undone."
@@ -45,6 +46,7 @@ const MyTasks = ({ notifications }) => {
       toast.error("Server error deleting task");
     }
   };
+
 
   const filteredTasks = tasks.filter(
     (task) =>
