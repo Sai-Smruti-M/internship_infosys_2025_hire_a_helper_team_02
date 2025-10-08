@@ -1,75 +1,63 @@
 
-
 import React, { useEffect, useState } from "react";
-
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 
 const ProtectedRoute = ({ children }) => {
-
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
   const location = useLocation();
-  const navigate = useNavigate();
-
 
 
   const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
-    if (!(user && token)) return;
+    if (!user || !token) return; // only for logged-in users
 
-    const HASH_GUARD = '#session';
-    const ensureHashGuard = () => {
-      if (window.location.hash !== HASH_GUARD) {
-        try {
-          window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search + HASH_GUARD);
-  } catch { /* ignore replaceState errors */ }
-      }
+    // Push dummy history state to detect back
+    const pushDummyState = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+    pushDummyState();
+
+    const handlePopState = (e) => {
+      e.preventDefault();
+      setShowConfirm(true);
+      pushDummyState(); // prevent actual back navigation
     };
 
-    const pushDummy = () => {
-      try {
-        window.history.pushState({ guard: Date.now() }, "");
-  } catch { /* ignore pushState errors */ }
+    // Handle browser back button
+    window.addEventListener("popstate", handlePopState);
+
+    // Optional: handle tab close or refresh
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = ""; // show default browser alert
     };
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
-   
-    ensureHashGuard();
-    pushDummy();
-
-    const handlePop = () => {
-      const u = JSON.parse(localStorage.getItem('user'));
-      const t = localStorage.getItem('token');
-      if (u && t) {
-        setShowConfirm(true);
-        pushDummy();
-        ensureHashGuard();
-      } else {
-        navigate('/', { replace: true });
-      }
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-    window.addEventListener('popstate', handlePop);
-    return () => window.removeEventListener('popstate', handlePop);
-  }, [user, token, navigate]);
+  }, [user, token]);
 
-  const confirmLogoutAndBack = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+  const confirmLeave = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     setShowConfirm(false);
-    navigate('/', { replace: true });
+    window.location.href = "/"; // redirect to login
   };
 
-  const cancelBack = () => {
+  const cancelLeave = () => {
     setShowConfirm(false);
-    
+    // Push dummy state again to prevent back
+    window.history.pushState(null, "", window.location.href);
   };
-
 
 
   if (!user || !token) {
     return <Navigate to="/" replace state={{ from: location }} />;
-
   }
 
   return (
@@ -78,19 +66,19 @@ const ProtectedRoute = ({ children }) => {
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-gray-800">
-            <h2 className="text-lg font-semibold mb-2">Leave this session?</h2>
+            <h2 className="text-lg font-semibold mb-2">Are you sure?</h2>
             <p className="text-sm text-gray-600 mb-4">
-              Going back will log you out. You will need to sign in again to access your dashboard.
+              Going back will log you out. You will need to sign in again.
             </p>
             <div className="flex justify-end gap-3">
               <button
-                onClick={cancelBack}
+                onClick={cancelLeave}
                 className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-sm font-medium"
               >
                 Stay
               </button>
               <button
-                onClick={confirmLogoutAndBack}
+                onClick={confirmLeave}
                 className="px-4 py-2 rounded bg-red-500 hover:bg-red-600 text-white text-sm font-medium"
               >
                 Log out

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaBell, FaSearch, FaMapMarkerAlt, FaRegClock } from "react-icons/fa";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 
 const MyRequests = ({ notifications }) => {
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ const MyRequests = ({ notifications }) => {
     const fetchMyRequests = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/requests/requester/${user.id}`);
-        console.log(res.data)
         setMyRequests(res.data);
       } catch (err) {
         console.error("Error fetching requests:", err);
@@ -38,48 +37,63 @@ const MyRequests = ({ notifications }) => {
   const goToNotifications = () => navigate("/notification");
 
   return (
-    <div className="ml-64 flex flex-col w-[calc(100%-16rem)] bg-gray-900 text-white min-h-screen border-l border-gray-700">
-      <div className="sticky top-0 z-20 flex justify-between items-center bg-gray-900 p-6 border-b border-gray-700">
-        <div>
-          <h1 className="text-3xl font-bold">My Requests</h1>
-          <p className="text-gray-400">Track the help requests you’ve sent</p>
-        </div>
-        <div className="relative cursor-pointer" onClick={goToNotifications}>
-          <FaBell size={24} />
-          <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
-            {notifications.length}
-          </span>
-        </div>
-      </div>
-
-      <div className="sticky top-[88px] z-20 bg-gray-900 px-6 py-4 flex items-center border-b border-gray-700">
-        <div className="flex items-center bg-white text-black px-4 py-2 rounded-lg w-1/2">
-          <FaSearch className="text-gray-500 mr-2" />
-          <input
-            type="text"
-            placeholder="Search requests..."
-            className="w-full outline-none"
-            value={search}
+     <div
+          className="flex flex-col bg-gray-900 text-white min-h-screen 
+          w-full mt-16 md:mt-0 md:ml-64 md:w-[calc(100%-16rem)]"
+        >
+          {/* Header */}
+          <div className="sticky top-0 z-20 flex justify-between items-center bg-gray-900 p-4 md:p-6 border-b border-gray-700">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold">My Requests</h1>
+              <p className="text-gray-400 text-sm md:text-base">
+                Track the help requests you’ve sent
+              </p>
+            </div>
+            <div className="relative cursor-pointer" onClick={goToNotifications}>
+              <FaBell size={22} className="md:size-15" />
+              <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">
+                {notifications.length}
+              </span>
+            </div>
+          </div>
+    
+          {/* Search & Add Task */}
+          <div className="sticky top-[64px] md:top-[88px] z-20 bg-gray-900 px-4 py-3 md:px-6 md:py-4 border-b border-gray-700 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+            <div className="flex items-center bg-white text-black px-3 md:px-4 py-2 rounded-lg w-full md:w-1/2">
+              <FaSearch className="text-gray-500 mr-2" />
+              <input
+                type="text"
+                placeholder="Search tasks..."
+                className="w-full outline-none text-sm md:text-base"
+                 value={search}
             onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-      </div>
+              />
+            </div>
+            <Link to="/add-task" className="w-full md:w-auto">
+              <button className="bg-blue-600 w-full md:w-auto text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                + Add New Task
+              </button>
+            </Link>
+          </div>
 
 
-      <div className="px-6 pb-10 mt-6 flex-1">
+      {/* Requests List */}
+      <div className="px-4 sm:px-6 pb-10 mt-6 flex-1">
+
         {filteredRequests.length === 0 ? (
           <div className="flex items-center justify-center h-[50vh]">
             <p className="text-gray-400 text-2xl font-semibold">No requests found.</p>
           </div>
         ) : (
           <div className="space-y-4">
+
             {filteredRequests.map((req) => (
               <div
                 key={req._id}
                 className="flex flex-col bg-white text-black p-4 rounded-lg shadow-md"
               >
-                <div className="flex justify-between items-start">
-                  <div className="flex items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                  <div className="flex items-center mb-3 sm:mb-0">
                     <div className="w-12 h-12 rounded-full overflow-hidden mr-3">
                       {req.task_owner?.profile_picture ? (
                         <img
@@ -93,8 +107,6 @@ const MyRequests = ({ notifications }) => {
                         </div>
                       )}
                     </div>
-
-
                     <div>
                       <h2 className="font-bold text-lg">{req.task?.title}</h2>
                       <p className="text-sm text-gray-600">
@@ -104,7 +116,7 @@ const MyRequests = ({ notifications }) => {
                     </div>
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 flex-wrap">
                     <span className="bg-sky-200 text-sky-700 text-xs font-semibold px-2 py-1 rounded">
                       {req.task?.category}
                     </span>
@@ -133,6 +145,7 @@ const MyRequests = ({ notifications }) => {
                     {req.task?.location || "No location provided."}
                   </p>
                 </div>
+
 
 
                 <div className="flex flex-col sm:flex-row text-sm text-gray-600 gap-2 sm:space-x-6 mt-2">
