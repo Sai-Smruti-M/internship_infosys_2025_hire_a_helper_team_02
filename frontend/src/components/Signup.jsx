@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -152,18 +154,29 @@ const Signup = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-gray-700 text-xs sm:text-sm font-semibold mb-1">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              required
-            />
-          </div>
+         <div>
+  <label className="block text-gray-700 text-xs sm:text-sm font-semibold mb-1">
+    Password
+  </label>
+  <div className="relative">
+    <input
+      type={showPassword ? "text" : "password"} // 👈 toggle password visibility
+      name="password"
+      value={formData.password}
+      onChange={handleChange}
+      placeholder="Enter your password"
+      className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+      required
+    />
+    <button
+      type="button"
+      onClick={() => setShowPassword(!showPassword)}
+      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+    >
+      {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+    </button>
+  </div>
+</div>
           <div>
             <label className="block text-gray-700 text-xs sm:text-sm font-semibold mb-1">Profile Image (optional)</label>
             <input
