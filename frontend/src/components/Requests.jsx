@@ -73,6 +73,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
       setLoading(false);
     }
   };
+   const goToNotifications = () => navigate("/notification");
 
   const goToNotifications = () => navigate("/notification");
 

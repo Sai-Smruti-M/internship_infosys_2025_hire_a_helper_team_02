@@ -47,7 +47,6 @@ const Feed = ({ notifications, refreshNotifications }) => {
 
       refreshNotifications();
       const data = await response.json();
-
       if (data.success) {
         toast.success("Request sent successfully!");
         setTasks((prev) =>

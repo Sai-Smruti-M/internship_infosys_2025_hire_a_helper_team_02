@@ -185,10 +185,7 @@ router.put("/:requestId/status", async (req, res) => {
         ? `Your request for the task "${request.task_id?.title || "Deleted Task"}" has been accepted.`
         : `Your request for the task "${request.task_id?.title || "Deleted Task"}" has been declined.`;
 
-    await Notification.create({
-      user_id: request.requester_id._id,
-      body: notificationMessage,
-    });
+    await Notification.create({ user_id: request.requester_id._id, body: notificationMessage });
 
     res.json({ success: true, message: `Request ${status}`, data: request });
   } catch (err) {
