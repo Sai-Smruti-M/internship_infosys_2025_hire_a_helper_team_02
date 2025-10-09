@@ -46,7 +46,6 @@ app.use("/tasks", getTasksRoute);
 app.use('/api/settings',settingsRoute );
 app.use("/forgot-password", forgotPasswordRoute);
 app.use("/accepted-tasks", acceptedTasksRoute);
-
 app.use("/notifications", notificationsRoute);
 
 

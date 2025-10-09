@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from "react";
 import { FaHome, FaClipboardList, FaBars, FaTimes } from "react-icons/fa";
-
 import { MdOutlineOutbox } from "react-icons/md";
 
 import { FaFolderOpen } from "react-icons/fa6";
@@ -13,6 +12,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")) || null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showLogoutPopup, setShowLogoutPopup] = useState(false);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -23,7 +23,6 @@ const Sidebar = () => {
   }, []);
 
   const handleLogout = () => {
-    if (!window.confirm("Are you sure you want to logout?")) return;
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     setUser(null);
@@ -42,7 +41,6 @@ const Sidebar = () => {
     { to: "/add-task", icon: <FiPlus size={20} />, label: "Add Task" },
     { to: "/settings", icon: <IoMdSettings size={20} />, label: "Settings" },
   ];
-
 
   return (
     <>
@@ -86,9 +84,8 @@ const Sidebar = () => {
         </nav>
 
         <button
-          onClick={handleLogout}
+          onClick={() => setShowLogoutPopup(true)}
           className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition"
-
         >
           Logout
         </button>
@@ -140,7 +137,7 @@ const Sidebar = () => {
                   isActive ? "bg-teal-500" : "hover:bg-teal-500"
                 }`
               }
-              style={{ transitionDelay: `${index * 50}ms` }} // slight stagger effect
+              style={{ transitionDelay: `${index * 50}ms` }}
             >
               {link.icon}
               <span>{link.label}</span>
@@ -151,8 +148,8 @@ const Sidebar = () => {
         <div className="p-4">
           <button
             onClick={() => {
-              handleLogout();
               setMenuOpen(false);
+              setShowLogoutPopup(true);
             }}
             className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition"
           >
@@ -160,6 +157,33 @@ const Sidebar = () => {
           </button>
         </div>
       </div>
+
+      {/* Logout Confirmation Popup */}
+      {showLogoutPopup && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-[100]">
+          <div className="bg-white text-gray-800 p-6 rounded-2xl shadow-2xl w-80 text-center">
+            <h2 className="text-xl font-bold mb-3">Confirm Logout</h2>
+            <p className="text-sm mb-6">Are you sure you want to log out?</p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setShowLogoutPopup(false)}
+                className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg font-semibold"
+              >
+                Stay Logged In
+              </button>
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setShowLogoutPopup(false);
+                }}
+                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold"
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
