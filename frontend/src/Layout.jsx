@@ -1,11 +1,8 @@
-
 import React, { useEffect, useRef, useState } from "react";
-
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 
 const Layout = () => {
-
   const location = useLocation();
   const [showConfirm, setShowConfirm] = useState(false);
   const popHandlerRef = useRef(null); // to store the handler so we can remove it later
@@ -63,12 +60,10 @@ const Layout = () => {
     window.history.pushState({}, document.title, window.location.href);
   };
 
-
   return (
     <div className="flex">
       <Sidebar />
       <div className="flex-1">
-
         <Outlet key={location.pathname} />
       </div>
 

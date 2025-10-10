@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const Feed = ({ notifications, refreshNotifications }) => {
   const [tasks, setTasks] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loadingTaskId, setLoadingTaskId] = useState(null); // 🔹 Added
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
 
@@ -30,6 +31,9 @@ const Feed = ({ notifications, refreshNotifications }) => {
       alert("You must be logged in to send a request!");
       return;
     }
+
+    setLoadingTaskId(task._id); // 🔹 Start loading
+
     try {
       const response = await fetch("http://localhost:5000/requests", {
         method: "POST",
@@ -55,17 +59,21 @@ const Feed = ({ notifications, refreshNotifications }) => {
       }
     } catch (err) {
       console.error("Error sending request:", err);
+    } finally {
+      setLoadingTaskId(null); // 🔹 Stop loading
     }
   };
 
   const goToNotifications = () => navigate("/notification");
 
-  const filteredTasks = tasks.filter(
-    (task) =>
-      task.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      task.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      task.category?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredTasks = tasks
+    .filter((task) => task.user_id?._id !== user?.id)
+    .filter(
+      (task) =>
+        task.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        task.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        task.category?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   return (
     <div
@@ -113,6 +121,7 @@ const Feed = ({ notifications, refreshNotifications }) => {
           {filteredTasks.map((task) => {
             const userInfo = task.user_id;
             const isButtonDisabled = task.is_request_sent === true;
+            const isLoading = loadingTaskId === task._id; // 🔹 Check loading for each task
 
             return (
               <div
@@ -182,16 +191,23 @@ const Feed = ({ notifications, refreshNotifications }) => {
                       </div>
                     </div>
 
+                    {/* ✅ Request Button with Loading */}
                     <button
-                      className={`w-full md:w-auto px-4 py-2 rounded-lg text-sm ${
+                      className={`w-full md:w-auto px-4 py-2 rounded-lg text-sm transition-all duration-200 ${
                         isButtonDisabled
                           ? "bg-gray-400 text-white cursor-not-allowed"
+                          : isLoading
+                          ? "bg-yellow-500 text-white cursor-wait"
                           : "bg-green-400 hover:bg-green-500 text-white"
                       }`}
-                      disabled={isButtonDisabled}
+                      disabled={isButtonDisabled || isLoading}
                       onClick={() => handleSendRequest(task)}
                     >
-                      {isButtonDisabled ? "Request Sent" : "Request Send"}
+                      {isLoading
+                        ? "Sending..."
+                        : isButtonDisabled
+                        ? "Request Sent"
+                        : "Request Send"}
                     </button>
                   </div>
                 </div>

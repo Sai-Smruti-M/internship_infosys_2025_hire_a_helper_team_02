@@ -84,7 +84,6 @@ const MyRequests = ({ notifications }) => {
           </div>
         ) : (
           <div className="space-y-4">
-
             {filteredRequests.map((req) => (
               <div
                 key={req._id}
@@ -110,7 +109,6 @@ const MyRequests = ({ notifications }) => {
                       <p className="text-sm text-gray-600">
                         Task owner: {req.task_owner?.first_name} {req.task_owner?.last_name}
                       </p>
-
                     </div>
                   </div>
 
@@ -143,8 +141,6 @@ const MyRequests = ({ notifications }) => {
                     {req.task?.location || "No location provided."}
                   </p>
                 </div>
-
-
 
                 <div className="flex flex-col sm:flex-row text-sm text-gray-600 gap-2 sm:space-x-6 mt-2">
                   <span className="flex items-center">
