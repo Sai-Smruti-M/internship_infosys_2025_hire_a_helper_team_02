@@ -155,8 +155,6 @@ const Sidebar = () => {
           </button>
         </div>
       </div>
-
-      {/* Logout Confirmation Popup */}
       {showLogoutPopup && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-[100]">
           <div className="bg-white text-gray-800 p-6 rounded-2xl shadow-2xl w-80 text-center">

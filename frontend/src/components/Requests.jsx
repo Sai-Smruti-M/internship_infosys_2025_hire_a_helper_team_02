@@ -30,9 +30,8 @@ const Requests = ({ notifications, refreshNotifications }) => {
     );
   });
 
-  // ✅ Accept Request
   const handleAccept = async (reqId) => {
-    setLoading(true); // show loader
+    setLoading(true); 
     try {
       const response = await fetch(`http://localhost:5000/requests/${reqId}/status`, {
         method: "PUT",
@@ -48,11 +47,9 @@ const Requests = ({ notifications, refreshNotifications }) => {
       console.error(err);
       toast.error("Error accepting the request. Please try again.");
     } finally {
-      setLoading(false); // hide loader
+      setLoading(false); 
     }
   };
-
-  // ✅ Reject Request
   const handleDecline = async (reqId) => {
     setLoading(true);
     try {
@@ -81,7 +78,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
       className="flex flex-col bg-gray-900 text-white min-h-screen 
       w-full mt-16 md:mt-0 md:ml-64 md:w-[calc(100%-16rem)]"
     >
-      {/* ✅ Loading Overlay */}
+      
       {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-4 p-8 bg-white/90 rounded-xl shadow-xl">
@@ -92,7 +89,6 @@ const Requests = ({ notifications, refreshNotifications }) => {
         </div>
       )}
 
-      {/* Header */}
       <div className="sticky top-0 z-20 flex justify-between items-center bg-gray-900 p-4 md:p-6 border-b border-gray-700">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold">Requests</h1>
@@ -107,8 +103,6 @@ const Requests = ({ notifications, refreshNotifications }) => {
           </span>
         </div>
       </div>
-
-      {/* Search */}
       <div className="sticky top-[64px] md:top-[88px] z-20 bg-gray-900 px-4 sm:px-6 py-3 sm:py-4 flex items-center border-b border-gray-700">
         <div className="flex items-center bg-white text-black px-4 py-2 rounded-lg w-full sm:w-1/2">
           <FaSearch className="text-gray-500 mr-2" />
@@ -121,8 +115,6 @@ const Requests = ({ notifications, refreshNotifications }) => {
           />
         </div>
       </div>
-
-      {/* Requests List */}
       <div className="px-4 sm:px-6 pb-10 mt-6 flex-1 space-y-4">
         {filteredRequests.length === 0 ? (
           <div className="flex items-center justify-center h-[50vh]">
