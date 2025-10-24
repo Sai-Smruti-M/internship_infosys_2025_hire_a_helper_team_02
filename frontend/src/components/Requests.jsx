@@ -30,6 +30,7 @@ const Requests = ({ notifications, refreshNotifications }) => {
     );
   });
 
+  // ✅ Accept Request
   const handleAccept = async (reqId) => {
     setLoading(true); 
     try {
@@ -70,6 +71,9 @@ const Requests = ({ notifications, refreshNotifications }) => {
       setLoading(false);
     }
   };
+   const goToNotifications = () => navigate("/notification");
+
+  const goToNotifications = () => navigate("/notification");
 
   const goToNotifications = () => navigate("/notification");
 
